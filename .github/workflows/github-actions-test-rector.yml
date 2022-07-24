@@ -5,5 +5,5 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
-      - run: php composer install
+      - run: php composer.phar install
       - run: php rector process src
