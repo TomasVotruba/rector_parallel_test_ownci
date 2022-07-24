@@ -4,5 +4,5 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: windows-latest
     steps:
-      - run: php composer.phar install"
+      - run: php composer.phar install
       - run: php rector process src
