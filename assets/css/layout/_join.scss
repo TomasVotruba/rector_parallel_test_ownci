@@ -1,0 +1,98 @@
+.max-vh60 {
+  max-height: 60vh;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.scrollHorizontal {
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.scrollEle {
+  border-right: solid 1px gray;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.addParticipants {
+  padding: 0.25rem 0.5rem;
+}
+
+.addParticipants i {
+  padding-right: 0.75rem;
+}
+
+strong {
+  font-weight: bold;
+}
+
+.footerContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  img {
+    height: 80px;
+    width: auto;
+  }
+}
+
+.jconfirm-buttons{
+  .btn{
+    border-radius: 5000px!important;
+  }
+}
+
+.window{
+  .main{
+    position: relative;
+    .imageBackground{
+      position: absolute;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100%;
+      width: 100%;
+      background-position: center;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  }
+  .navigation{
+    grid-column: unset;
+  }
+  .footer{
+    grid-column: unset;
+  }
+  grid-template-columns: auto ;
+  background-color: unset;
+}
+
+@supports (-webkit-appearance:none) {
+  .frozenGlas {
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(5px);
+  }
+}
+
+@supports (-moz-appearance:none) {
+  .frozenGlas {
+    background-color: white;
+  }
+}
+#logo_image{
+  &.stick{
+    position: absolute;
+    top: 1.5em;
+    left: 1.5em;
+    z-index: 2;
+  }
+}
+.transparent{
+  transform:translateX(325px) ;
+  @media (max-width: 850px) {
+    opacity: 0;
+    display: none;
+  }
+}

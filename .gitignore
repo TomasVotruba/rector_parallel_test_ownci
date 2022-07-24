@@ -1,0 +1,57 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+*.Halite.key*
+*.idea/*
+*/public/uploads/*
+*/data/*
+*/data/
+*data/*
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
+/public/trash/
+/.phpdoc/
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+/theme/*
+!/theme/README.md
+/translations/custom/messages+intl-icu.de.xlf
+
+*.signed*
+/screenshot/*
+/test/result/res.xml
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+/docker-compose.override.yml
+/docker-compose.test.override.yml
+/public/uploads/images/*
+!/public/uploads/images/index.html
+docker.conf
+
+/documentation_jitsi_admin/node_modules/

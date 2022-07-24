@@ -1,0 +1,242 @@
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+
+/* ---------------------------------------------------
+    Add Reuqired Symbole to Forms
+----------------------------------------------------- */
+
+label.required:after {
+  content: " *";
+}
+
+
+/* ---------------------------------------------------
+    Add Sticky Footer
+    id="content" need padding-bottom and the size of the footer
+----------------------------------------------------- */
+
+#mainContent {
+  position: relative;
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  background-color: whitesmoke
+}
+
+#footer {
+  position: absolute;
+  bottom: 0px;
+}
+
+
+.snackbar {
+  width: 100%;
+  background-color: #4b515d;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  font-size: 17px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+
+  .innerOnce {
+    width: 100%;
+    padding: 16px;
+    cursor: pointer;
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+  }
+}
+
+#snackbar {
+  visibility: hidden;
+  padding: 1em;
+
+  &.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+  }
+}
+
+
+@-webkit-keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 0;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 0;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 0;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+.dropdown-toggle::after {
+  content: none !important;
+}
+
+
+.headerBorder:hover {
+  animation-play-state: paused;
+}
+
+
+/* MDB Scrollbar */
+.scrollbar-deep-purple::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: transparent;
+  border-radius: 10px;
+}
+
+.scrollbar-deep-purple::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+.scrollbar-deep-purple::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: $main-color;
+}
+
+.scrollbar-deep-purple {
+  scrollbar-color: $main-color;
+}
+
+
+.bordered-deep-purple::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  border: 1px solid $main-color;
+}
+
+.bordered-deep-purple::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: none;
+}
+
+
+.thin::-webkit-scrollbar {
+  width: 10px;
+}
+
+@media only screen and (min-width: 992px) {
+  .hide {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
+    align-items: center;
+  }
+
+  .triggerHide:hover .element {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 500ms;
+  }
+  .triggerHide .element {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0s, opacity 500ms;
+  }
+
+}
+
+.hide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.caretdown {
+  i {
+    white-space: nowrap;
+  }
+
+  &[aria-expanded="true"] {
+    &:before {
+      transform: rotateX(0.5turn);
+    }
+  }
+
+  &:before {
+    font-family: "Font Awesome 5 Free";
+    margin-right: 0.5em;
+    font-weight: 900;
+    float: left;
+    transition: transform 0.3s ease-in;
+    content: "\f0d7";
+  }
+
+}
+
+.iconSytle {
+  max-height: 25px;
+}
+
+.iconSytle:Hover {
+  webkit-filter: drop-shadow(2px 2px 3px #9C9C9C);
+  filter: drop-shadow(2px 2px 3px #9c9c9c);
+}
+
+@media only screen and (min-width: 768px) {
+  .iconSytle {
+    max-height: 30px;
+  }
+}
+
+.breakWord {
+  word-break: break-word;
+  padding-right: 5px;
+}
+
+.noBreak {
+  white-space: nowrap;
+}
+
+#modalAdressbook a[aria-expanded="true"] {
+  background: white;
+}
