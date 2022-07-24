@@ -9,8 +9,9 @@ jobs:
         with:
             php-version: '8.1'
             extensions: mbstring, intl, ldap,fileinfo, xsl
-      - name: Install PHP
+      - name: checkout
         uses: actions/checkout@v2
+      - name: Install PHP
         run: php composer.phar install
       - name: Rector
         run: php rector process src
