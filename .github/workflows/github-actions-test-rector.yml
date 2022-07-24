@@ -14,4 +14,4 @@ jobs:
       - name: Install PHP
         run: php composer.phar install
       - name: Rector
-        run: vendor/bin/rector prozess src
+        run: vendor/bin/rector process src
