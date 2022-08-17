@@ -80,52 +80,7 @@ class Rooms
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $dissallowScreenshareGlobal;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $dissallowPrivateMessage;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
     private $public = true;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $showRoomOnJoinpage;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $uidParticipant;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $uidModerator;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $maxParticipants;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $scheduleMeeting;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $waitinglist;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $repeaterRemoved;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="protoypeRooms")
@@ -311,73 +266,6 @@ class Rooms
         return $this;
     }
 
-    public function getDuration(): ?float
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(float $duration): self
-    {
-        $this->duration = $duration;
-
-        return $this;
-    }
-
-    public function getSequence(): ?int
-    {
-        return $this->sequence;
-    }
-
-    public function setSequence(int $sequence): self
-    {
-        $this->sequence = $sequence;
-
-        return $this;
-    }
-
-    public function getUidReal(): ?string
-    {
-        return $this->uidReal;
-    }
-
-    public function setUidReal(string $uidReal): self
-    {
-        $this->uidReal = $uidReal;
-
-        return $this;
-    }
-
-    public function getOnlyRegisteredUsers(): ?bool
-    {
-        return $this->onlyRegisteredUsers;
-    }
-
-    public function setOnlyRegisteredUsers(bool $onlyRegisteredUsers): self
-    {
-        $this->onlyRegisteredUsers = $onlyRegisteredUsers;
-
-        return $this;
-    }
-
-    public function getAgenda(): ?string
-    {
-        return $this->agenda;
-    }
-
-    public function setAgenda(?string $agenda): self
-    {
-        $this->agenda = $agenda;
-
-        return $this;
-    }
-
-    public function setPublic(?bool $public): self
-    {
-        $this->public = $public;
-
-        return $this;
-    }
-
     /**
      * @return Collection|User[]
      */
@@ -400,75 +288,6 @@ class Rooms
         $this->prototypeUsers->removeElement($prototypeUser);
 
         return $this;
-    }
-
-    public function getPersistantRoom(): ?bool
-    {
-        return $this->persistantRoom;
-    }
-
-    public function setPersistantRoom(?bool $persistantRoom): self
-    {
-        $this->persistantRoom = $persistantRoom;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(?string $slug): self
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    public function getTotalOpenRooms(): ?bool
-    {
-        return $this->totalOpenRooms;
-    }
-
-    public function setTotalOpenRooms(?bool $totalOpenRooms): self
-    {
-        $this->totalOpenRooms = $totalOpenRooms;
-
-        return $this;
-    }
-
-    public function getTotalOpenRoomsOpenTime(): ?int
-    {
-        return $this->totalOpenRoomsOpenTime;
-    }
-
-    public function setTotalOpenRoomsOpenTime(?int $totalOpenRoomsOpenTime): self
-    {
-        $this->totalOpenRoomsOpenTime = $totalOpenRoomsOpenTime;
-
-        return $this;
-    }
-
-    public function getTimeZone(): ?string
-    {
-        return $this->timeZone;
-    }
-
-    public function setTimeZone(?string $timeZone): self
-    {
-        $this->timeZone = $timeZone;
-
-        return $this;
-    }
-
-    public function getTimeZoneAuto(): ?string
-    {
-        if ($this->timeZone) {
-            return $this->timeZone;
-        } else {
-            return $this->moderator->getTimeZone();
-        }
     }
 
     public function getStartwithTimeZone(?User $user): ?\DateTimeInterface
