@@ -53,60 +53,10 @@ class Rooms
     private $moderator;
 
     /**
-     * @ORM\Column(type="float")
-     */
-    private $duration;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $sequence;
-
-    /**
-     * @ORM\Column(type="text",nullable=true)
-     */
-    private $uidReal;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $onlyRegisteredUsers = false;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $agenda;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $public = true;
-
-    /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="protoypeRooms")
      * @ORM\JoinTable(name="prototype_users")
      */
     private $prototypeUsers;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $persistantRoom;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $slug;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $totalOpenRooms;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $totalOpenRoomsOpenTime = 30;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -155,108 +105,6 @@ class Rooms
         $this->userAttributes = new ArrayCollection();
         $this->prototypeUsers = new ArrayCollection();
         $this->favoriteUsers = new ArrayCollection();
-    }
-
-    /**
-     * @ORM\PreFlush
-     */
-    public function preUpdate()
-    {
-        $timezone = $this->timeZone ? new \DateTimeZone($this->timeZone) : null;
-
-        if ($this->start) {
-            $dateStart = new \DateTime($this->start->format('Y-m-d H:i:s'), $timezone);
-            $this->startUtc = $dateStart->setTimezone(new \DateTimeZone('utc'));
-            $this->startTimestamp = $dateStart->getTimestamp();
-        }
-        if ($this->enddate) {
-            $dateEnd = new \DateTime($this->enddate->format('Y-m-d H:i:s'), $timezone);
-            $this->endDateUtc = $dateEnd->setTimezone(new \DateTimeZone('utc'));
-            $this->endTimestamp = $dateEnd->getTimestamp();
-        }
-    }
-
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getStart(): ?\DateTimeInterface
-    {
-        return $this->start;
-    }
-
-
-    public function setStart(?\DateTimeInterface $start): self
-    {
-        $this->start = $start;
-        return $this;
-    }
-
-    public function getEnddate(): ?\DateTimeInterface
-    {
-        return $this->enddate;
-    }
-
-    public function setEnddate(?\DateTimeInterface $enddate): self
-    {
-        $this->enddate = $enddate;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        $this->user->removeElement($user);
-
-        return $this;
-    }
-
-    public function getUid(): ?string
-    {
-        return strtolower($this->uid);
-    }
-
-    public function setUid(string $uid): self
-    {
-        $this->uid = $uid;
-
-        return $this;
-    }
-
-    public function getModerator(): ?User
-    {
-        return $this->moderator;
     }
 
     public function setModerator(?User $moderator): self
