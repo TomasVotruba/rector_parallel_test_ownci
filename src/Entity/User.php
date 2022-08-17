@@ -3,11 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use App\Service\FormatName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -18,8 +16,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class User
 {
-    private FormatName $formatName;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -36,46 +32,6 @@ class User
     protected $plainPassword;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $keycloakId;
-
-    /**
-     * @ORM\Column(type="datetime",nullable=true)
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $username;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $lastLogin;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $lastName;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $registerId;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Rooms::class, mappedBy="user")
      */
     private $rooms;
@@ -89,11 +45,6 @@ class User
     {
         $this->rooms = new ArrayCollection();
         $this->roomModerator = new ArrayCollection();
-        $this->addressbook = new ArrayCollection();
-        $this->addressbookInverse = new ArrayCollection();
-        $this->roomsAttributes = new ArrayCollection();
-        $this->protoypeRooms = new ArrayCollection();
-        $this->favorites = new ArrayCollection();
     }
 
     /**
