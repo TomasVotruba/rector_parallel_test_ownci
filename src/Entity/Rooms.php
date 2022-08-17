@@ -129,11 +129,6 @@ class Rooms
     private $maxParticipants;
 
     /**
-     * @ORM\OneToMany(targetEntity=Scheduling::class, mappedBy="room")
-     */
-    private $schedulings;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $scheduleMeeting;
@@ -250,7 +245,6 @@ class Rooms
         $this->user = new ArrayCollection();
         $this->userAttributes = new ArrayCollection();
         $this->subscribers = new ArrayCollection();
-        $this->schedulings = new ArrayCollection();
         $this->waitinglists = new ArrayCollection();
         $this->prototypeUsers = new ArrayCollection();
         $this->favoriteUsers = new ArrayCollection();
@@ -579,36 +573,6 @@ class Rooms
     public function setMaxParticipants(?int $maxParticipants): self
     {
         $this->maxParticipants = $maxParticipants;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Scheduling[]
-     */
-    public function getSchedulings(): Collection
-    {
-        return $this->schedulings;
-    }
-
-    public function addScheduling(Scheduling $scheduling): self
-    {
-        if (!$this->schedulings->contains($scheduling)) {
-            $this->schedulings[] = $scheduling;
-            $scheduling->setRoom($this);
-        }
-
-        return $this;
-    }
-
-    public function removeScheduling(Scheduling $scheduling): self
-    {
-        if ($this->schedulings->removeElement($scheduling)) {
-            // set the owning side to null (unless already changed)
-            if ($scheduling->getRoom() === $this) {
-                $scheduling->setRoom(null);
-            }
-        }
 
         return $this;
     }
