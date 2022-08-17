@@ -136,11 +136,6 @@ class Server
     private $serverEmailBody;
 
     /**
-     * @ORM\OneToMany(targetEntity=KeycloakGroupsToServers::class, mappedBy="server", cascade={"persist"})
-     */
-    private $keycloakGroups;
-
-    /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="myOwnRoomServer")
      */
     private $OwnRoomUSer;
@@ -487,36 +482,6 @@ class Server
     public function setServerEmailBody(?string $serverEmailBody): self
     {
         $this->serverEmailBody = $serverEmailBody;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|KeycloakGroupsToServers[]
-     */
-    public function getKeycloakGroups(): Collection
-    {
-        return $this->keycloakGroups;
-    }
-
-    public function addKeycloakGroup(KeycloakGroupsToServers $keycloakGroup): self
-    {
-        if (!$this->keycloakGroups->contains($keycloakGroup)) {
-            $this->keycloakGroups[] = $keycloakGroup;
-            $keycloakGroup->setServer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeKeycloakGroup(KeycloakGroupsToServers $keycloakGroup): self
-    {
-        if ($this->keycloakGroups->removeElement($keycloakGroup)) {
-            // set the owning side to null (unless already changed)
-            if ($keycloakGroup->getServer() === $this) {
-                $keycloakGroup->setServer(null);
-            }
-        }
 
         return $this;
     }
