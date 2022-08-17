@@ -161,16 +161,6 @@ class User extends BaseUser
      */
     private $myOwnRoomServer;
 
-    /**
-     * @ORM\OneToMany(targetEntity=AddressGroup::class, mappedBy="leader",cascade={"remove"})
-     */
-    private $AddressGroupLeader;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=AddressGroup::class, mappedBy="member")
-     */
-    private $AddressGroupMember;
-
 
     /**
      * @ORM\OneToOne(targetEntity=LdapUserProperties::class, mappedBy="user",  cascade={"persist", "remove"})
@@ -233,8 +223,6 @@ class User extends BaseUser
         $this->notifications = new ArrayCollection();
         $this->repeaterUsers = new ArrayCollection();
         $this->protoypeRooms = new ArrayCollection();
-        $this->AddressGroupLeader = new ArrayCollection();
-        $this->AddressGroupMember = new ArrayCollection();
         $this->favorites = new ArrayCollection();
         $this->lobbyWaitungUsers = new ArrayCollection();
     }
@@ -748,63 +736,6 @@ class User extends BaseUser
     public function setMyOwnRoomServer(?Server $myOwnRoomServer): self
     {
         $this->myOwnRoomServer = $myOwnRoomServer;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|AddressGroup[]
-     */
-    public function getAddressGroupLeader(): Collection
-    {
-        return $this->AddressGroupLeader;
-    }
-
-    public function addAddressGroupLeader(AddressGroup $addressGroupLeader): self
-    {
-        if (!$this->AddressGroupLeader->contains($addressGroupLeader)) {
-            $this->AddressGroupLeader[] = $addressGroupLeader;
-            $addressGroupLeader->setLeader($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAddressGroupLeader(AddressGroup $addressGroupLeader): self
-    {
-        if ($this->AddressGroupLeader->removeElement($addressGroupLeader)) {
-            // set the owning side to null (unless already changed)
-            if ($addressGroupLeader->getLeader() === $this) {
-                $addressGroupLeader->setLeader(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|AddressGroup[]
-     */
-    public function getAddressGroupMember(): Collection
-    {
-        return $this->AddressGroupMember;
-    }
-
-    public function addAddressGroupMember(AddressGroup $addressGroupMember): self
-    {
-        if (!$this->AddressGroupMember->contains($addressGroupMember)) {
-            $this->AddressGroupMember[] = $addressGroupMember;
-            $addressGroupMember->addMember($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAddressGroupMember(AddressGroup $addressGroupMember): self
-    {
-        if ($this->AddressGroupMember->removeElement($addressGroupMember)) {
-            $addressGroupMember->removeMember($this);
-        }
 
         return $this;
     }
