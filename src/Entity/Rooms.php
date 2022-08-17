@@ -113,11 +113,6 @@ class Rooms
     private $uidModerator;
 
     /**
-     * @ORM\OneToMany(targetEntity=Subscriber::class, mappedBy="room", cascade={"persist", "remove"})
-     */
-    private $subscribers;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $maxParticipants;
@@ -223,7 +218,6 @@ class Rooms
     {
         $this->user = new ArrayCollection();
         $this->userAttributes = new ArrayCollection();
-        $this->subscribers = new ArrayCollection();
         $this->waitinglists = new ArrayCollection();
         $this->prototypeUsers = new ArrayCollection();
         $this->favoriteUsers = new ArrayCollection();
@@ -497,36 +491,6 @@ class Rooms
     public function setUidModerator(?string $uidModerator): self
     {
         $this->uidModerator = $uidModerator;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Subscriber[]
-     */
-    public function getSubscribers(): Collection
-    {
-        return $this->subscribers;
-    }
-
-    public function addSubscriber(Subscriber $subscriber): self
-    {
-        if (!$this->subscribers->contains($subscriber)) {
-            $this->subscribers[] = $subscriber;
-            $subscriber->setRoom($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubscriber(Subscriber $subscriber): self
-    {
-        if ($this->subscribers->removeElement($subscriber)) {
-            // set the owning side to null (unless already changed)
-            if ($subscriber->getRoom() === $this) {
-                $subscriber->setRoom(null);
-            }
-        }
 
         return $this;
     }
