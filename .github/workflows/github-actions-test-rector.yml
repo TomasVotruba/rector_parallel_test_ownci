@@ -19,4 +19,4 @@ jobs:
 
             -
                 name: "Rector Run"
-                run: vendor/bin/rector process --ansi
+                run: vendor/bin/rector process src/Entity/User.php --ansi --debug
