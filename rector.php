@@ -6,6 +6,9 @@ use Rector\Nette\Set\NetteSetList;
 use Rector\Config\RectorConfig;
 
 return function (RectorConfig $rectorConfig): void {
+    $rectorConfig->paths([
+        __DIR__ . '/src',
+    ]);
 
     $rectorConfig->sets([
         DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
