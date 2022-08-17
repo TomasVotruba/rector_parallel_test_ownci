@@ -184,11 +184,6 @@ class Rooms
     private $lobby;
 
     /**
-     * @ORM\OneToMany(targetEntity=RoomStatus::class, mappedBy="room", orphanRemoval=true)
-     */
-    private $roomstatuses;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $startTimestamp;
@@ -210,7 +205,6 @@ class Rooms
         $this->userAttributes = new ArrayCollection();
         $this->prototypeUsers = new ArrayCollection();
         $this->favoriteUsers = new ArrayCollection();
-        $this->roomstatuses = new ArrayCollection();
     }
 
     /**
@@ -708,36 +702,6 @@ class Rooms
     public function setLobby(?bool $lobby): self
     {
         $this->lobby = $lobby;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Roomstatus[]
-     */
-    public function getRoomstatuses(): Collection
-    {
-        return $this->roomstatuses;
-    }
-
-    public function addRoomstatus(RoomStatus $roomstatus): self
-    {
-        if (!$this->roomstatuses->contains($roomstatus)) {
-            $this->roomstatuses[] = $roomstatus;
-            $roomstatus->setRoom($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRoomstatus(RoomStatus $roomstatus): self
-    {
-        if ($this->roomstatuses->removeElement($roomstatus)) {
-            // set the owning side to null (unless already changed)
-            if ($roomstatus->getRoom() === $this) {
-                $roomstatus->setRoom(null);
-            }
-        }
 
         return $this;
     }
