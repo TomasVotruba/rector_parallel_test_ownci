@@ -82,19 +82,9 @@ class User extends BaseUser
     private $rooms;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Server::class, mappedBy="user")
-     */
-    private $servers;
-
-    /**
      * @ORM\OneToMany(targetEntity=Rooms::class, mappedBy="moderator")
      */
     private $roomModerator;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Server::class, mappedBy="administrator")
-     */
-    private $serverAdmins;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="addressbookInverse")
@@ -142,12 +132,6 @@ class User extends BaseUser
     private $ownRoomUid;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="OwnRoomUSer")
-     */
-    private $myOwnRoomServer;
-
-
-    /**
      * @ORM\OneToOne(targetEntity=LdapUserProperties::class, mappedBy="user",  cascade={"persist", "remove"})
      */
     private $ldapUserProperties;
@@ -185,9 +169,7 @@ class User extends BaseUser
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
-        $this->servers = new ArrayCollection();
         $this->roomModerator = new ArrayCollection();
-        $this->serverAdmins = new ArrayCollection();
         $this->addressbook = new ArrayCollection();
         $this->addressbookInverse = new ArrayCollection();
         $this->roomsAttributes = new ArrayCollection();
@@ -321,33 +303,6 @@ class User extends BaseUser
     }
 
     /**
-     * @return Collection|Server[]
-     */
-    public function getServers(): Collection
-    {
-        return $this->servers;
-    }
-
-    public function addServer(Server $server): self
-    {
-        if (!$this->servers->contains($server)) {
-            $this->servers[] = $server;
-            $server->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeServer(Server $server): self
-    {
-        if ($this->servers->removeElement($server)) {
-            $server->removeUser($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Rooms[]
      */
     public function getRoomModerator(): Collection
@@ -371,36 +326,6 @@ class User extends BaseUser
             // set the owning side to null (unless already changed)
             if ($roomModerator->getModerator() === $this) {
                 $roomModerator->setModerator(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Server[]
-     */
-    public function getServerAdmins(): Collection
-    {
-        return $this->serverAdmins;
-    }
-
-    public function addServerAdmin(Server $serverAdmin): self
-    {
-        if (!$this->serverAdmins->contains($serverAdmin)) {
-            $this->serverAdmins[] = $serverAdmin;
-            $serverAdmin->setAdministrator($this);
-        }
-
-        return $this;
-    }
-
-    public function removeServerAdmin(Server $serverAdmin): self
-    {
-        if ($this->serverAdmins->removeElement($serverAdmin)) {
-            // set the owning side to null (unless already changed)
-            if ($serverAdmin->getAdministrator() === $this) {
-                $serverAdmin->setAdministrator(null);
             }
         }
 
@@ -606,18 +531,6 @@ class User extends BaseUser
     public function setOwnRoomUid(?string $ownRoomUid): self
     {
         $this->ownRoomUid = $ownRoomUid;
-
-        return $this;
-    }
-
-    public function getMyOwnRoomServer(): ?Server
-    {
-        return $this->myOwnRoomServer;
-    }
-
-    public function setMyOwnRoomServer(?Server $myOwnRoomServer): self
-    {
-        $this->myOwnRoomServer = $myOwnRoomServer;
 
         return $this;
     }

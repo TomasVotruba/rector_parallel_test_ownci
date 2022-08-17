@@ -18,12 +18,6 @@ class Star
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="stars")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $server;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $star;
@@ -41,18 +35,6 @@ class Star
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getServer(): ?Server
-    {
-        return $this->server;
-    }
-
-    public function setServer(?Server $server): self
-    {
-        $this->server = $server;
-
-        return $this;
     }
 
     public function getStar(): ?int

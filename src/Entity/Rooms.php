@@ -42,12 +42,6 @@ class Rooms
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Server::class, inversedBy="rooms")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $server;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $uid;
@@ -317,18 +311,6 @@ class Rooms
     public function removeUser(User $user): self
     {
         $this->user->removeElement($user);
-
-        return $this;
-    }
-
-    public function getServer(): ?Server
-    {
-        return $this->server;
-    }
-
-    public function setServer(?Server $server): self
-    {
-        $this->server = $server;
 
         return $this;
     }
