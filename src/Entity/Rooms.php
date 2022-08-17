@@ -78,11 +78,6 @@ class Rooms
     private $agenda;
 
     /**
-     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="room",cascade={"persist"}, orphanRemoval=true)
-     */
-    private $userAttributes;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $dissallowScreenshareGlobal;
@@ -372,36 +367,6 @@ class Rooms
     public function setAgenda(?string $agenda): self
     {
         $this->agenda = $agenda;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|RoomsUser[]
-     */
-    public function getUserAttributes(): Collection
-    {
-        return $this->userAttributes;
-    }
-
-    public function addUserAttribute(RoomsUser $userAttribute): self
-    {
-        if (!$this->userAttributes->contains($userAttribute)) {
-            $this->userAttributes[] = $userAttribute;
-            $userAttribute->setRoom($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserAttribute(RoomsUser $userAttribute): self
-    {
-        if ($this->userAttributes->removeElement($userAttribute)) {
-            // set the owning side to null (unless already changed)
-            if ($userAttribute->getRoom() === $this) {
-                $userAttribute->setRoom(null);
-            }
-        }
 
         return $this;
     }

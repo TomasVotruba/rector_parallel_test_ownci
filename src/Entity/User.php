@@ -96,11 +96,6 @@ class User
     private $addressbookInverse;
 
     /**
-     * @ORM\OneToMany(targetEntity=RoomsUser::class, mappedBy="user")
-     */
-    private $roomsAttributes;
-
-    /**
      * @ORM\Column(type="array", nullable=true,name="keycloakGroup")
      */
     private $groups = [];
@@ -365,36 +360,6 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection|RoomsUser[]
-     */
-    public function getRoomsAttributes(): Collection
-    {
-        return $this->roomsAttributes;
-    }
-
-    public function addRoomsAttributes(RoomsUser $roomsNew): self
-    {
-        if (!$this->roomsAttributes->contains($roomsNew)) {
-            $this->roomsAttributes[] = $roomsNew;
-            $roomsNew->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRoomsAttributes(RoomsUser $roomsNew): self
-    {
-        if ($this->roomsAttributes->removeElement($roomsNew)) {
-            // set the owning side to null (unless already changed)
-            if ($roomsNew->getUser() === $this) {
-                $roomsNew->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getGroups(): ?array
     {
         return $this->groups;
@@ -514,16 +479,6 @@ class User
         $this->favorites->removeElement($favorite);
 
         return $this;
-    }
-
-    public function getPermissionForRoom(Rooms $rooms): RoomsUser
-    {
-        foreach ($this->roomsAttributes as $data) {
-            if ($data->getRoom() == $rooms) {
-                return $data;
-            }
-        }
-        return new RoomsUser();
     }
 
     public function getIndexer(): ?string
