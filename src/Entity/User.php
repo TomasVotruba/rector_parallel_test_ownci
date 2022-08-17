@@ -122,11 +122,6 @@ class User extends BaseUser
     private $ownRoomUid;
 
     /**
-     * @ORM\OneToOne(targetEntity=LdapUserProperties::class, mappedBy="user",  cascade={"persist", "remove"})
-     */
-    private $ldapUserProperties;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $timeZone;
@@ -459,23 +454,6 @@ class User extends BaseUser
     public function setOwnRoomUid(?string $ownRoomUid): self
     {
         $this->ownRoomUid = $ownRoomUid;
-
-        return $this;
-    }
-
-    public function getLdapUserProperties(): ?LdapUserProperties
-    {
-        return $this->ldapUserProperties;
-    }
-
-    public function setLdapUserProperties(LdapUserProperties $ldapUserProperties): self
-    {
-        // set the owning side of the relation if necessary
-        if ($ldapUserProperties->getUser() !== $this) {
-            $ldapUserProperties->setUser($this);
-        }
-
-        $this->ldapUserProperties = $ldapUserProperties;
 
         return $this;
     }
