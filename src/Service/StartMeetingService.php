@@ -102,7 +102,6 @@ class StartMeetingService
             }
 
             return $this->roomDefault();
-
         }
         return $this->roomNotFound();
     }
@@ -127,7 +126,6 @@ class StartMeetingService
         if ($this->user === $this->room->getModerator() || $this->user->getPermissionForRoom($this->room)->getLobbyModerator()) {
             return $this->lobbyModerator();
         } else {
-
             return $this->createLobbyParticipantResponse();
         }
     }
@@ -152,7 +150,8 @@ class StartMeetingService
 
     public function createLobbyModeratorResponse()
     {
-        return new Response($this->twig->render('lobby/index.html.twig', [
+        return new Response(
+            $this->twig->render('lobby/index.html.twig', [
             'room' => $this->room,
             'server' => $this->room->getServer(),
             'type' => $this->type,
@@ -172,12 +171,11 @@ class StartMeetingService
     public function createLobbyParticipantResponse($wuid = null)
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user' => $this->user, 'room' => $this->room));
-        if($wuid){
+        if ($wuid) {
             $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $wuid));
-            if ($lobbyUser){
+            if ($lobbyUser) {
                 $this->user = 1;
             }
-
         }
 
         if (!$lobbyUser || $this->user === null) {
@@ -191,7 +189,6 @@ class StartMeetingService
             $this->em->persist($lobbyUser);
             $this->em->flush();
             $this->toModerator->newParticipantInLobby($lobbyUser);
-
         }
         $lobbyUser->setShowName($this->name);
         $lobbyUser->setType($this->type);
@@ -210,11 +207,13 @@ class StartMeetingService
      */
     private function RoomClosed()
     {
-        $this->flashBag->add('danger', $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
+        $this->flashBag->add('danger', $this->translator->trans(
+            'Der Beitritt ist nur von {from} bis {to} möglich',
             array(
                 '{from}' => $this->room->getStartwithTimeZone($this->user)->modify('-30min')->format('d.m.Y H:i'),
                 '{to}' => $this->room->getEndwithTimeZone($this->user)->format('d.m.Y H:i')
-            )));
+            )
+        ));
 
         return new RedirectResponse($this->urlGen->generate('dashboard'));
     }
@@ -225,7 +224,7 @@ class StartMeetingService
      */
     private function roomNotFound()
     {
-        $this->flashBag->add('danger',  $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
+        $this->flashBag->add('danger', $this->translator->trans('Konferenz nicht gefunden. Zugangsdaten erneut eingeben'));
         return new RedirectResponse($this->urlGen->generate('dashboard'));
     }
 
@@ -242,14 +241,13 @@ class StartMeetingService
             $this->url = $this->roomService->join($this->room, $this->user, $this->type, $this->name);
             return new RedirectResponse($this->url);
         } elseif ($this->type === 'b') {
-            return new Response($this->twig->render('start/index.html.twig', array('server'=>$this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name)));
+            return new Response($this->twig->render('start/index.html.twig', array('server' => $this->room->getServer(), 'room' => $this->room, 'user' => $this->user, 'name' => $this->name)));
         }
         return new NotFoundHttpException('Room not found');
     }
 
-    static public function checkTime(Rooms $room, User $user = null)
+    public static function checkTime(Rooms $room, User $user = null)
     {
-
         $now = new \DateTime('now', new \DateTimeZone('utc'));
         $start = null;
         $endDate = null;
@@ -268,7 +266,7 @@ class StartMeetingService
     /**
      * @return null
      */
-    public function getLobbyUser():?LobbyWaitungUser
+    public function getLobbyUser(): ?LobbyWaitungUser
     {
         return $this->lobbyUser;
     }

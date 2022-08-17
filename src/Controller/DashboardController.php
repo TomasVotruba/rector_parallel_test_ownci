@@ -34,7 +34,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class DashboardController extends JitsiAdminController
 {
-
     /**
      * @Route("/", name="index")
      * @param Request $request
@@ -68,7 +67,7 @@ class DashboardController extends JitsiAdminController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function dashboard( Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService)
+    public function dashboard(Request $request, ServerUserManagment $serverUserManagment, ParameterBagInterface $parameterBag, FavoriteService $favoriteService)
     {
         $stopwatch = new Stopwatch();
         $start = $stopwatch->start('dashboard');
@@ -112,9 +111,9 @@ class DashboardController extends JitsiAdminController
         $tomorrow = (clone $today)->modify('+1day');
         $favorites = $this->doctrine->getRepository(Rooms::class)->findFavoriteRooms($this->getUser());
         $timer = $stopwatch->stop('dashboard');
-        if ($request->get('snack')){
-            if ($request->get('color')){
-                $this->addFlash($request->get('color'),$request->get('snack'));
+        if ($request->get('snack')) {
+            if ($request->get('color')) {
+                $this->addFlash($request->get('color'), $request->get('snack'));
             }
         }
         $date = new \DateTime();
@@ -129,8 +128,8 @@ class DashboardController extends JitsiAdminController
             'today' => $today,
             'tomorrow' => $tomorrow,
             'favorite' => $favorites,
-            'timestamp'=>$timestamp,
-            'time'=>$timer->getDuration(),
+            'timestamp' => $timestamp,
+            'time' => $timer->getDuration(),
         ]);
         if ($parameterBag->get('laf_darkmodeAsDefault') && !$request->cookies->has('DARK_MODE')) {
             $res = $this->redirectToRoute('dashboard');
@@ -160,19 +159,15 @@ class DashboardController extends JitsiAdminController
             return $this->render('dashboard/__lazyFixed.html.twig', [
                 'persistantRooms' => $persistantRooms,
                 'servers' => $servers,
-                'offset'=>$offset
+                'offset' => $offset
             ]);
         } elseif ($type === 'past') {
             $roomsPast = $this->doctrine->getRepository(Rooms::class)->findRoomsInPast($this->getUser(), $offset);
             return $this->render('dashboard/__lazyPast.html.twig', [
                 'roomsPast' => $roomsPast,
                 'servers' => $servers,
-                'offset'=>$offset
+                'offset' => $offset
             ]);
         }
-
-
-
-
     }
 }

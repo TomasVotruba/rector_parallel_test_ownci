@@ -23,14 +23,14 @@ class JoinController extends JitsiAdminController
 {
     private $joinService;
 
-    public function __construct(ManagerRegistry       $managerRegistry,
-                                TranslatorInterface   $translator,
-                                LoggerInterface       $logger,
-                                ParameterBagInterface $parameterBag,
-                                JoinService           $joinService
-    )
-    {
-        parent::__construct($managerRegistry,$translator,$logger,$parameterBag);
+    public function __construct(
+        ManagerRegistry       $managerRegistry,
+        TranslatorInterface   $translator,
+        LoggerInterface       $logger,
+        ParameterBagInterface $parameterBag,
+        JoinService           $joinService
+    ) {
+        parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->joinService = $joinService;
     }
 
@@ -81,7 +81,7 @@ class JoinController extends JitsiAdminController
                 return $res;
             }
         }
-        $this->addFlash($color,$snack);
+        $this->addFlash($color, $snack);
         return $this->render('join/index.html.twig', [
             'form' => $form->createView(),
             'server' => $server,
@@ -94,7 +94,7 @@ class JoinController extends JitsiAdminController
      * @return boolean
      * @author Andreas Holzmann
      */
-    function onlyWithUserAccount(?Rooms $room)
+    public function onlyWithUserAccount(?Rooms $room)
     {
         if ($room) {
             return $this->parameterBag->get('laF_onlyRegisteredParticipents') == 1 || //only registered Users globally set
@@ -109,7 +109,7 @@ class JoinController extends JitsiAdminController
      * @return boolean
      * @author Andreas Holzmann
      */
-    function userAccountLogin(?Rooms $room, ?User $user)
+    public function userAccountLogin(?Rooms $room, ?User $user)
     {
         if ($room) {
             return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference

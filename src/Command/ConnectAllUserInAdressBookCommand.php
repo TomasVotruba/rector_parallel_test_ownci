@@ -36,9 +36,9 @@ class ConnectAllUserInAdressBookCommand extends Command
         try {
             $count = sizeof($this->ldapUSerService->connectUserwithAllUSersInAdressbock());
             $this->ldapUSerService->cleanUpAdressbook();
-            $io->success(sprintf('We connect %d user in the adressbook',$count));
+            $io->success(sprintf('We connect %d user in the adressbook', $count));
             return Command::SUCCESS;
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $io->error('Error. Connecting all users failed');
             return Command::FAILURE;
         }

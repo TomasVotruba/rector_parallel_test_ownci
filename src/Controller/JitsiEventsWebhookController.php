@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Helper\JitsiAdminController;
 use App\Service\api\CheckAuthorizationService;
 use App\Service\webhook\RoomWebhookService;
-use Psr\Log\LoggerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,20 +19,19 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class JitsiEventsWebhookController extends JitsiAdminController
 {
-
     private $token;
     private $webhookService;
 
     /**
      * @param ParameterBagInterface $parameterBag
      */
-    public function __construct(ManagerRegistry       $managerRegistry,
-                                TranslatorInterface   $translator,
-                                LoggerInterface       $logger,
-                                ParameterBagInterface $parameterBag,
-                                RoomWebhookService    $roomCreatedWebhookService
-    )
-    {
+    public function __construct(
+        ManagerRegistry       $managerRegistry,
+        TranslatorInterface   $translator,
+        LoggerInterface       $logger,
+        ParameterBagInterface $parameterBag,
+        RoomWebhookService    $roomCreatedWebhookService
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
 
         $this->token = 'Bearer ' . $parameterBag->get('JITSI_EVENTS_TOKEN');

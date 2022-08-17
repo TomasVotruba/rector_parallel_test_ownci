@@ -19,8 +19,7 @@ class InvitationController extends JitsiAdminController
      */
     public function index(InviteService $inviteService, User $user, Request $request): Response
     {
-
-        $inviteService->connectUserWithEmail($user,$this->getUser());
+        $inviteService->connectUserWithEmail($user, $this->getUser());
         return $this->redirectToRoute('dashboard');
     }
 }

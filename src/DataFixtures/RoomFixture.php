@@ -47,7 +47,7 @@ class RoomFixture extends Fixture
         $user2->setFirstName('Test2');
         $user2->setLastName('User2');
         $user2->setRegisterId(123456);
-        $user2->setSpezialProperties(array('ou' => 'Test2', 'departmentNumber' => '1234', 'telephoneNumber' => '9876543210',));
+        $user2->setSpezialProperties(array('ou' => 'Test2', 'departmentNumber' => '1234', 'telephoneNumber' => '9876543210', ));
         $user2->setTimeZone('Europe/Berlin');
         $user2->setUuid('lksdhflkjdsljflhjkkjds');
         $user2->setUid('kljlsdkjflkjddfgslfjsdlkjsdflkj');
@@ -241,7 +241,6 @@ class RoomFixture extends Fixture
 
             $manager->persist($selectDate);
             $manager->persist($room);
-
         }
         for ($i = 0; $i < 20; $i++) {
             $room = new Rooms();
@@ -569,7 +568,6 @@ class RoomFixture extends Fixture
             $lobbyUser->setShowName('LobbyUser ' . $i);
             $lobbyUser->setType('a');
             $manager->persist($lobbyUser);
-
         }
         $manager->flush();
 
@@ -618,7 +616,5 @@ class RoomFixture extends Fixture
             $manager->persist($tag2);
         }
         $manager->flush();
-
-
     }
 }

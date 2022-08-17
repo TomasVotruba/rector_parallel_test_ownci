@@ -24,10 +24,9 @@ class IndexUserCommand extends Command
     private $groupIndexer;
     protected function configure(): void
     {
-
     }
 
-    public function __construct( EntityManagerInterface $entityManager, IndexUserService $indexUserService, IndexGroupsService $indexGroupsService, string $name = null)
+    public function __construct(EntityManagerInterface $entityManager, IndexUserService $indexUserService, IndexGroupsService $indexGroupsService, string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;
@@ -48,7 +47,7 @@ class IndexUserCommand extends Command
         }
         $this->em->flush();
         $progressBar->finish();
-        $io->success(sprintf('we reindex %d users',sizeof($user)));
+        $io->success(sprintf('we reindex %d users', sizeof($user)));
 
         $group = $this->em->getRepository(AddressGroup::class)->findAll();
         $progressBar = new ProgressBar($output, sizeof($group));
@@ -61,7 +60,7 @@ class IndexUserCommand extends Command
         $this->em->flush();
         $progressBar->finish();
         $io->newLine();
-        $io->success(sprintf('we reindex %d Groups',sizeof($group)));
+        $io->success(sprintf('we reindex %d Groups', sizeof($group)));
         return Command::SUCCESS;
     }
 }

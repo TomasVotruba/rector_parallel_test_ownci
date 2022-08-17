@@ -18,7 +18,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AdminController extends JitsiAdminController
 {
-
     /**
      * @Route("/admin/server/{server}", name="admin_server")
      * @ParamConverter("server", class="App\Entity\Server",options={"mapping": {"server": "id"}})
@@ -32,15 +31,15 @@ class AdminController extends JitsiAdminController
 
         if ($this->getUser() !== $server->getAdministrator()) {
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
-             return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('dashboard');
         }
         $tags = null;
         try {
-            if($parameterBag->get('enterprise_noExternal') == 0){
+            if ($parameterBag->get('enterprise_noExternal') == 0) {
                 $req = $httpClient->request('GET', 'https://api.github.com/repos/H2-invent/jitsi-admin/tags');
                 $tags = json_decode($req->getContent(), true);
             }
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $tags = null;
         }
 
@@ -52,6 +51,5 @@ class AdminController extends JitsiAdminController
             'chart' => $chart,
             'tags' => $tags
         ]);
-
     }
 }

@@ -16,7 +16,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ChangePermissionsController extends JitsiAdminController
 {
-
     /**
      * @Route("/room/change/permissions/shareScreen", name="change_permissions_screenShare")
      */
@@ -83,7 +82,7 @@ class ChangePermissionsController extends JitsiAdminController
         $userOld = $room->getModerator();
         if ($permissionChangeService->toggleModerator($userOld, $userNew, $room)) {
             $this->addFlash('success', $translator->trans('Der Moderator wurde erfolgreich hinzugefügt'));
-            return $this->redirectToRoute('dashboard' );
+            return $this->redirectToRoute('dashboard');
         }
         $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
         return $this->redirectToRoute('dashboard');
@@ -105,9 +104,9 @@ class ChangePermissionsController extends JitsiAdminController
         $userOld = $room->getModerator();
         $roomUser = $permissionChangeService->toggleLobbyModerator($userOld, $userNew, $room);
         if ($roomUser) {
-            if($roomUser->getLobbyModerator()){
+            if ($roomUser->getLobbyModerator()) {
                 return new JsonResponse(array('error' => false));
-            }else{
+            } else {
                 return new JsonResponse(array('error' => false));
             }
         }

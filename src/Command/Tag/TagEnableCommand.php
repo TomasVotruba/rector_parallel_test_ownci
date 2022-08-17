@@ -39,7 +39,7 @@ class TagEnableCommand extends Command
         }
 
         $tag = $this->em->getRepository(Tag::class)->find($tagId);
-        if (!$tag){
+        if (!$tag) {
             $io->error('Tag does not exist');
             return  Command::FAILURE;
         }

@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -23,8 +24,6 @@ use function GuzzleHttp\Psr7\str;
 
 class Theme extends AbstractExtension
 {
-
-
     private $themeService;
     public function __construct(ThemeService $themeService)
     {
@@ -33,7 +32,6 @@ class Theme extends AbstractExtension
 
     public function getFunctions(): array
     {
-
         return [
             new TwigFunction('getThemeProperties', [$this, 'getThemeProperties']),
             new TwigFunction('getApplicationProperties', [$this, 'getApplicationProperties']),

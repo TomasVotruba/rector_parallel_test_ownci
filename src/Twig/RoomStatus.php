@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -24,8 +25,6 @@ use function GuzzleHttp\Psr7\str;
 
 class RoomStatus extends AbstractExtension
 {
-
-
     private $webhookFrontend;
     public function __construct(RoomStatusFrontendService $roomStatusFrontendService)
     {
@@ -34,7 +33,6 @@ class RoomStatus extends AbstractExtension
 
     public function getFunctions(): array
     {
-
         return [
             new TwigFunction('RoomStatusOpen', [$this, 'RoomStatusOpen']),
             new TwigFunction('RoomStatusOccupats', [$this, 'RoomStatusOccupats']),
@@ -50,7 +48,8 @@ class RoomStatus extends AbstractExtension
     {
         return sizeof($this->webhookFrontend->numberOfOccupants($rooms));
     }
-    public function RoomStatusClosed(Rooms $rooms){
+    public function RoomStatusClosed(Rooms $rooms)
+    {
         return $this->webhookFrontend->isRoomClosed($rooms);
     }
 }

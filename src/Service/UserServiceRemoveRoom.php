@@ -17,10 +17,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-
 class UserServiceRemoveRoom
 {
-
     private $twig;
     private $notificationService;
     private $url;
@@ -39,11 +37,10 @@ class UserServiceRemoveRoom
     }
 
 
-    function removeRoom(User $user, Rooms $room)
+    public function removeRoom(User $user, Rooms $room)
     {
-
         $url = $this->urlGenerator->generateUrl($room, $user);
-        $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room,]);
+        $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room, ]);
         $subject = $this->translator->trans('[Videokonferenz] Videokonferenz {name} abgesagt', array('{name}' => $room->getName()));
         $ics = $this->notificationService->createIcs($room, $user, $url, 'CANCEL');
         $attachement[] = array('type' => 'text/calendar', 'filename' => substr(UtilsHelper::slugify($room->getName()), 0, 10) . '.ics', 'body' => $ics);
@@ -51,9 +48,11 @@ class UserServiceRemoveRoom
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
-                $this->translator->trans('Die Videokonferenz {name} wurde von {organizer} abgesagt.',
+                $this->translator->trans(
+                    'Die Videokonferenz {name} wurde von {organizer} abgesagt.',
                     array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
-                        '{name}' => $room->getName())),
+                        '{name}' => $room->getName())
+                ),
                 $user,
                 $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
             );
@@ -61,17 +60,19 @@ class UserServiceRemoveRoom
         return true;
     }
 
-    function removePersistantRoom(User $user, Rooms $room)
+    public function removePersistantRoom(User $user, Rooms $room)
     {
-        $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room,]);
+        $content = $this->twig->render('email/removeRoom.html.twig', ['user' => $user, 'room' => $room, ]);
         $subject = $this->translator->trans('[Videokonferenz] Videokonferenz abgesagt');
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room);
         if ($room->getModerator() !== $user) {
             $this->pushService->generatePushNotification(
                 $subject,
-                $this->translator->trans('Die Videokonferenz {name} wurde von {organizer} abgesagt.',
+                $this->translator->trans(
+                    'Die Videokonferenz {name} wurde von {organizer} abgesagt.',
                     array('{organizer}' => $room->getModerator()->getFirstName() . ' ' . $room->getModerator()->getLastName(),
-                        '{name}' => $room->getName())),
+                        '{name}' => $room->getName())
+                ),
                 $user,
                 $this->url->generate('dashboard', array(), UrlGeneratorInterface::ABSOLUTE_URL)
             );
@@ -79,10 +80,9 @@ class UserServiceRemoveRoom
         return true;
     }
 
-    function removeRoomScheduling(User $user, Rooms $room)
+    public function removeRoomScheduling(User $user, Rooms $room)
     {
-
-        $content = $this->twig->render('email/removeSchedule.html.twig', ['user' => $user, 'room' => $room,]);
+        $content = $this->twig->render('email/removeSchedule.html.twig', ['user' => $user, 'room' => $room, ]);
         $subject = $this->translator->trans('[Terminplanung] Terminplanung abgesagt');
         $this->notificationService->sendNotification($content, $subject, $user, $room->getServer(), $room);
         return true;

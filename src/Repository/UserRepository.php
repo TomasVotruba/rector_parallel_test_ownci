@@ -70,7 +70,6 @@ class UserRepository extends ServiceEntityRepository
             ->setParameter('search', '%' . $value . '%')
             ->getQuery()
             ->getResult();
-
     }
     public function findUsersByLdapServerId($value)
     {
@@ -97,7 +96,7 @@ class UserRepository extends ServiceEntityRepository
 
         return $qb->join('u.ldapUserProperties', 'ldap_user_properties')
             ->andWhere('ldap_user_properties.ldapDn = :ldapdn')
-            ->setParameter('ldapdn',$userDn)
+            ->setParameter('ldapdn', $userDn)
             ->getQuery()
             ->getOneOrNullResult();
     }

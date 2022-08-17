@@ -29,7 +29,7 @@ class UserCreatorService
                 ->setPassword('123')
                 ->setUid(md5(uniqid()));
             $user->setIndexer($this->indexer->indexUser($user));
-            if (!$dryrun){
+            if (!$dryrun) {
                 $this->em->persist($user);
                 $this->em->flush();
             }

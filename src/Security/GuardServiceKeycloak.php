@@ -3,7 +3,6 @@
 
 namespace App\Security;
 
-
 use App\Entity\FosUser;
 use App\Entity\MyUser;
 use App\Entity\User;
@@ -51,7 +50,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
         $this->logger = $logger;
     }
 
-    public function supports(Request $request):bool
+    public function supports(Request $request): bool
     {
         // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_keycloak_check';
@@ -74,9 +73,7 @@ class GuardServiceKeycloak extends SocialAuthenticator
             try {
                 $email = $keycloakUser->toArray()['preferred_username'];
             } catch (\Exception $e) {
-
             }
-
         }
         $id = $keycloakUser->getId();
         $this->logger->debug($id);
@@ -169,7 +166,6 @@ class GuardServiceKeycloak extends SocialAuthenticator
         }
 
         return new RedirectResponse($targetUrl);
-
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
@@ -186,8 +182,4 @@ class GuardServiceKeycloak extends SocialAuthenticator
         $targetUrl = $this->router->generate('login_keycloak');
         return new RedirectResponse($targetUrl);
     }
-
 }
-
-
-

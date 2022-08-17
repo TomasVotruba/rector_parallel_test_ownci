@@ -3,7 +3,6 @@
 
 namespace App;
 
-
 class UtilsHelper
 {
     public static function slugify($urlString)
@@ -18,5 +17,4 @@ class UtilsHelper
         $slug = preg_replace("/[ ]/", "_", $slug);
         return $slug;
     }
-
 }

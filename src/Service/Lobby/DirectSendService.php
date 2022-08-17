@@ -51,8 +51,6 @@ class DirectSendService
         );
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
-
-
     }
 
     public function sendReloadPage($topic, $timeout)
@@ -63,8 +61,6 @@ class DirectSendService
         );
         $update = new Update($topic, json_encode($data));
         return $this->publisher->publish($update);
-
-
     }
 
     public function sendBrowserNotification($topic, $title, $message, $pushMessage, $id, $color)
@@ -93,7 +89,6 @@ class DirectSendService
 
     public function sendModal($topic, $content)
     {
-
         $data = array(
             'type' => 'modal',
             'content' => $content,
@@ -101,7 +96,6 @@ class DirectSendService
         );
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
-
     }
 
     public function sendRedirect($topic, $url, $timeout = 1000)
@@ -146,16 +140,16 @@ class DirectSendService
         return $this->sendUpdate($update);
     }
 
-    public function sendCallAdhockmeeding($title, $topic, $message, $pushMesage, $time,$id)
+    public function sendCallAdhockmeeding($title, $topic, $message, $pushMesage, $time, $id)
     {
         $data = array(
             'type' => 'call',
-            'title'=>$title,
-            'message'=>$message,
-            'pushMessage'=>$pushMesage,
-            'time'=>$time,
-            'color'=>'success',
-            'messageId'=>$id
+            'title' => $title,
+            'message' => $message,
+            'pushMessage' => $pushMesage,
+            'time' => $time,
+            'color' => 'success',
+            'messageId' => $id
         );
         $update = new Update($topic, json_encode($data));
         return $this->sendUpdate($update);
@@ -181,5 +175,4 @@ class DirectSendService
             return false;
         }
     }
-
 }

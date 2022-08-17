@@ -52,7 +52,6 @@ class ToParticipantWebsocketService
 
     public function acceptLobbyUser(LobbyWaitungUser $lobbyWaitungUser)
     {
-
         $topic = 'lobby_WaitingUser_websocket/' . $lobbyWaitungUser->getUid();
         $this->directSend->sendSnackbar($topic, $this->translator->trans('lobby.participant.accept'), 'success');
         $appUrl = $this->roomService->join(
@@ -105,7 +104,6 @@ class ToParticipantWebsocketService
             } else {
                 $this->directSend->sendNewJitsiMeeting($topic, $options, 5000);
             }
-
         } elseif ($lobbyWaitungUser->getType() === 'a') {
             $this->directSend->sendRedirect($topic, $appUrl, 5000);
             $this->directSend->sendRedirect($topic, '/', 6000);

@@ -29,20 +29,17 @@ class JoinMyRoomType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
             ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.name'], 'label' => false, 'required' => true, 'translation_domain' => 'form']);
-            if ($this->themeService->getApplicationProperties('start_dropdown_allow_app')) {
-                $builder->add('joinApp', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-secondary btn-block p-3'), 'label' => 'label.beitretenApp', 'translation_domain' => 'form']);
-
-            }
+        if ($this->themeService->getApplicationProperties('start_dropdown_allow_app')) {
+            $builder->add('joinApp', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-secondary btn-block p-3'), 'label' => 'label.beitretenApp', 'translation_domain' => 'form']);
+        }
         if ($this->themeService->getApplicationProperties('start_dropdown_allow_browser')) {
             $builder->add('joinBrowser', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary btn-block p-3'), 'label' => 'label.beitretenBrowser', 'translation_domain' => 'form']);
         }
-           }
+    }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-
     }
 }

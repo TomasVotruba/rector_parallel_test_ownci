@@ -25,16 +25,16 @@ class CallerController extends JitsiAdminController
     private $callerSessionService;
     private $callerLeftService;
 
-    public function __construct(ManagerRegistry       $managerRegistry,
-                                TranslatorInterface   $translator,
-                                LoggerInterface       $logger,
-                                ParameterBagInterface $parameterBag,
-                                CallerLeftService     $callerLeftService,
-                                CallerSessionService  $callerSessionService,
-                                CallerPinService      $callerPinService,
-                                CallerFindRoomService $callerFindRoomService
-    )
-    {
+    public function __construct(
+        ManagerRegistry       $managerRegistry,
+        TranslatorInterface   $translator,
+        LoggerInterface       $logger,
+        ParameterBagInterface $parameterBag,
+        CallerLeftService     $callerLeftService,
+        CallerSessionService  $callerSessionService,
+        CallerPinService      $callerPinService,
+        CallerFindRoomService $callerFindRoomService
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->callerRoomService = $callerFindRoomService;
         $this->callerPinService = $callerPinService;
@@ -139,6 +139,4 @@ class CallerController extends JitsiAdminController
 
         return new JsonResponse(array('error' => $this->callerLeftService->callerLeft($request->get('session_id'))));
     }
-
-
 }

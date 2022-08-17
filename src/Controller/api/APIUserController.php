@@ -23,7 +23,6 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 
 class APIUserController extends JitsiAdminController
 {
-
     /**
      * @Route("/api/v1/getAllEntries", name="apiV1_getAllEntries")
      */
@@ -61,12 +60,11 @@ class APIUserController extends JitsiAdminController
      */
     public function addUserToRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, UserService $userService, RoomService $roomService): Response
     {
-
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
-         if ($room->getServer()->getApiKey() !== $apiKey ||  !$licenseService->verify($room->getServer()) ) {
+        if ($room->getServer()->getApiKey() !== $apiKey || !$licenseService->verify($room->getServer())) {
             return new JsonResponse(array('error' => true, 'text' => 'No Server found'));
         }
         $email = $request->get('email');
@@ -78,12 +76,11 @@ class APIUserController extends JitsiAdminController
      */
     public function removeUserFromRoom(LicenseService $licenseService, Request $request, InviteService $inviteService, RoomService $roomService): Response
     {
-
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
-        if ($room->getServer()->getApiKey() !== $apiKey ||  !$licenseService->verify($room->getServer()) ) {
+        if ($room->getServer()->getApiKey() !== $apiKey || !$licenseService->verify($room->getServer())) {
             return new JsonResponse(array('error' => true, 'text' => 'No Server found'));
         }
         $email = $request->get('email');

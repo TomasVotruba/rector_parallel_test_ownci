@@ -16,11 +16,10 @@ class ConnectServerAndGroupsCommand extends Command
 {
     protected static $defaultName = 'app:connectServerAndGroups';
     private $em;
-    public function __construct( EntityManagerInterface $entityManager, string $name = null)
+    public function __construct(EntityManagerInterface $entityManager, string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;
-
     }
 
     protected function configure()
@@ -43,9 +42,9 @@ class ConnectServerAndGroupsCommand extends Command
             $io->error('This server is not available.');
             return Command::FAILURE;
         }
-        $groupServer = $this->em->getRepository(KeycloakGroupsToServers::class)->findOneBy(array('server'=>$server,'keycloakGroup'=>$keycloakGroup));
+        $groupServer = $this->em->getRepository(KeycloakGroupsToServers::class)->findOneBy(array('server' => $server, 'keycloakGroup' => $keycloakGroup));
 
-        if ($groupServer){
+        if ($groupServer) {
             $io->error('This Server is already connected to this group');
             return Command::FAILURE;
         }
@@ -57,7 +56,7 @@ class ConnectServerAndGroupsCommand extends Command
 
 
 
-        $io->success('We added the group '.$keycloakGroup.' to the server '.$server->getUrl());
+        $io->success('We added the group ' . $keycloakGroup . ' to the server ' . $server->getUrl());
 
         return Command::SUCCESS;
     }

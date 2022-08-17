@@ -8,7 +8,6 @@
 
 namespace App\Form\Type;
 
-
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\Tag;
@@ -52,12 +51,11 @@ class RoomType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $time = (new \DateTime())->getTimestamp();
         $room = $options['data'];
 //        $room = new Rooms();
         $during = false;
-        if ($room->getStartTimestamp() && $room->getStartTimestamp() < $time && !$room->getRepeaterProtoype()){
+        if ($room->getStartTimestamp() && $room->getStartTimestamp() < $time && !$room->getRepeaterProtoype()) {
             $during = true;
         }
 
@@ -74,11 +72,11 @@ class RoomType extends AbstractType
                     'attr' => array('class' => 'moreFeatures')
                 ]);
         }
-        $tags = $this->entityManager->getRepository(Tag::class)->findBy(array('disabled'=>false),array('priority'=>'ASC'));
+        $tags = $this->entityManager->getRepository(Tag::class)->findBy(array('disabled' => false), array('priority' => 'ASC'));
 
         $builder
-            ->add('name', TextType::class, ['disabled'=>$during, 'required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
-            ->add('agenda', TextareaType::class, ['disabled'=>$during,'required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
+            ->add('name', TextType::class, ['disabled' => $during, 'required' => true, 'label' => 'label.konferenzName', 'translation_domain' => 'form'])
+            ->add('agenda', TextareaType::class, ['disabled' => $during, 'required' => false, 'label' => 'label.agenda', 'translation_domain' => 'form'])
             ->add('start', DateTimeType::class, ['required' => true, 'attr' => ['data-minDate' => $options['minDate'], 'class' => 'flatpickr', 'placeholder' => 'placeholder.chooseTime'], 'label' => 'label.start', 'translation_domain' => 'form', 'widget' => 'single_text'])
             ->add('duration', ChoiceType::class, [
                 'label' => 'label.dauerKonferenz',
@@ -152,17 +150,16 @@ class RoomType extends AbstractType
         }
         if ($options['showTag']) {
             $this->logger->debug('Add the possibility to select a tag');
-            if (sizeof($tags)>0){
+            if (sizeof($tags) > 0) {
                 $builder->add('tag', EntityType::class, array(
                     'class' => Tag::class,
                     'choice_label' => 'title',
-                    'choices' =>$tags,
+                    'choices' => $tags,
                     'required' => true,
                     'label' => 'label.tag',
                     'translation_domain' => 'form'
                 ));
             }
-
         }
         $builder->add('submit', SubmitType::class, ['label' => 'label.speichern', 'translation_domain' => 'form', 'attr' => array(
             'class' => 'd-none')]);
@@ -170,7 +167,6 @@ class RoomType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-
         $resolver->setDefaults([
             'server' => array(),
             'data_class' => Rooms::class,
@@ -178,27 +174,30 @@ class RoomType extends AbstractType
             'isEdit' => false
         ]);
 
-        $resolver->setDefault('attr', function (Options $options) {
-            $attr = array('id' => 'newRoom_form');
-            if (!$options['isEdit'] && $this->parameterBag->get('input_settings_allow_edit_tag') == 0 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
-                $attr['data-blocktext'] = $this->translator->trans('new.room.blockSave.text');
+        $resolver->setDefault(
+            'attr',
+            function (Options $options) {
+                $attr = array('id' => 'newRoom_form');
+                if (!$options['isEdit'] && $this->parameterBag->get('input_settings_allow_edit_tag') == 0 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
+                    $attr['data-blocktext'] = $this->translator->trans('new.room.blockSave.text');
+                    return $attr;
+                }
                 return $attr;
             }
-            return $attr;
-        }
         );
-        $resolver->setDefault('showTag', function (Options $options) {
-            if ($this->parameterBag->get('input_settings_allow_edit_tag') == 1 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
-                return true;
-            }
-            if (!$options['isEdit'] && $this->parameterBag->get('input_settings_allow_edit_tag') == 0 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
-                return true;
-            } elseif ($options['isEdit'] && $this->parameterBag->get('input_settings_allow_edit_tag') == 0 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
+        $resolver->setDefault(
+            'showTag',
+            function (Options $options) {
+                if ($this->parameterBag->get('input_settings_allow_edit_tag') == 1 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
+                    return true;
+                }
+                if (!$options['isEdit'] && $this->parameterBag->get('input_settings_allow_edit_tag') == 0 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
+                    return true;
+                } elseif ($options['isEdit'] && $this->parameterBag->get('input_settings_allow_edit_tag') == 0 && $this->parameterBag->get('input_settings_allow_tag') == 1) {
+                    return false;
+                }
                 return false;
             }
-            return false;
-        }
         );
-
     }
 }

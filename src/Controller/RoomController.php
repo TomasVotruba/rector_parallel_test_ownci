@@ -10,20 +10,20 @@ use App\Entity\User;
 use App\Form\Type\NewMemberType;
 use App\Form\Type\RoomType;
 use App\Helper\JitsiAdminController;
+use App\Service\InviteService;
 use App\Service\PermissionChangeService;
 use App\Service\RemoveRoomService;
 use App\Service\RepeaterService;
 use App\Service\RoomAddService;
 use App\Service\RoomCheckService;
 use App\Service\RoomGeneratorService;
+use App\Service\RoomService;
 use App\Service\SchedulingService;
 use App\Service\ServerService;
 use App\Service\ServerUserManagment;
 use App\Service\ThemeService;
-use App\Service\UserService;
-use App\Service\InviteService;
 
-use App\Service\RoomService;
+use App\Service\UserService;
 use App\UtilsHelper;
 use phpDocumentor\Reflection\Types\This;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -38,7 +38,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RoomController extends JitsiAdminController
 {
-
     /**
      * @Route("/room/new", name="room_new")
      */
@@ -77,7 +76,6 @@ class RoomController extends JitsiAdminController
                 }
             }
             if (sizeof($servers) === 1) {
-
                 $serverChhose = $servers[0];
             }
             //Here we create the new Room with all depedencies
@@ -88,14 +86,13 @@ class RoomController extends JitsiAdminController
         }
 
 
-        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()],),'isEdit'=> (bool)$request->get('id')]);
+        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_new', ['id' => $room->getId()], ), 'isEdit' => (bool)$request->get('id')]);
         $form->remove('scheduleMeeting');
 
         try {
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
                 $room = $form->getData();
                 $error = array();
                 $room = $roomCheckService->checkRoom($room, $error);
@@ -128,7 +125,6 @@ class RoomController extends JitsiAdminController
                 $res = $this->generateUrl('dashboard');
 
                 return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
-
             }
         } catch (\Exception $e) {
             $this->addFlash('danger', 'Fehler, Bitte kontrollieren Sie ihre Daten.');
@@ -142,10 +138,8 @@ class RoomController extends JitsiAdminController
     /**
      * @Route("/room/remove", name="room_remove")
      */
-    public
-    function roomRemove(Request $request, RepeaterService $repeaterService, RemoveRoomService $removeRoomService)
+    public function roomRemove(Request $request, RepeaterService $repeaterService, RemoveRoomService $removeRoomService)
     {
-
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $color = 'danger';
         $snack = 'Keine Berechtigung';
@@ -169,10 +163,8 @@ class RoomController extends JitsiAdminController
     /**
      * @Route("/room/clone", name="room_clone")
      */
-    public
-    function roomClone(RoomGeneratorService $roomGeneratorService, RoomCheckService $roomCheckService, Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService, ServerUserManagment $serverUserManagment)
+    public function roomClone(RoomGeneratorService $roomGeneratorService, RoomCheckService $roomCheckService, Request $request, UserService $userService, TranslatorInterface $translator, SchedulingService $schedulingService, ServerUserManagment $serverUserManagment)
     {
-
         $roomOld = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         $room = clone $roomOld;
         $room = $roomGeneratorService->createCallerId($room);
@@ -187,7 +179,6 @@ class RoomController extends JitsiAdminController
         $title = $translator->trans('Konferenz duplizieren');
 
         if ($this->getUser() === $room->getModerator()) {
-
             $servers = $serverUserManagment->getServersFromUser($this->getUser());
             $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('room_clone', ['room' => $room->getId()])]);
             $form->remove('scheduleMeeting');
@@ -223,7 +214,6 @@ class RoomController extends JitsiAdminController
                 $this->addFlash('modalUrl', base64_encode($this->generateUrl('room_add_user', array('room' => $room->getId()))));
                 $res = $this->generateUrl('dashboard');
                 return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
-
             }
             return $this->render('base/__newRoomModal.html.twig', array('form' => $form->createView(), 'title' => $title));
         }
@@ -233,6 +223,4 @@ class RoomController extends JitsiAdminController
         $res = $this->generateUrl('dashboard');
         return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
     }
-
-
 }

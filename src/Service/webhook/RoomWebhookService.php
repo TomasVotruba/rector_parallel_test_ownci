@@ -28,7 +28,8 @@ class RoomWebhookService
 
     public function startWebhook($data): ?string
     {
-        $res = 'No event defined';;
+        $res = 'No event defined';
+        ;
         if (isset($data['event_name'])) {
             switch ($data['event_name']) {
                 case 'muc-room-created':
@@ -132,7 +133,6 @@ class RoomWebhookService
                 $data2->setLeftRoomAt(\DateTime::createFromFormat('U', $data['destroyed_at']))
                     ->setInRoom(false);
                 $this->em->persist($data2);
-
             }
             $this->em->flush();
         } catch (\Exception $exception) {
@@ -206,7 +206,6 @@ class RoomWebhookService
                 ->setDominantSpeakerTime($data['occupant']['total_dominant_speaker_time'] ?? null);
             $this->em->persist($roomPart);
             $this->em->flush();
-
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
             return 'ERROR';

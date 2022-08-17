@@ -21,13 +21,14 @@ class CallerLeftService
         $this->sessionService = $callerSessionService;
         $this->moderatorWebsocketService = $toModeratorWebsocketService;
     }
-    public function callerLeft($sessionId){
-        $session = $this->em->getRepository(CallerSession::class)->findOneBy(array('sessionId'=>$sessionId));
-        if (!$session){
-            $this->loggger->error('Session not found',array('sessionId'=>$sessionId));
+    public function callerLeft($sessionId)
+    {
+        $session = $this->em->getRepository(CallerSession::class)->findOneBy(array('sessionId' => $sessionId));
+        if (!$session) {
+            $this->loggger->error('Session not found', array('sessionId' => $sessionId));
             return true;
         }
-        $this->loggger->debug('The Session is cleaned up', array('sessionId'=>$sessionId));
+        $this->loggger->debug('The Session is cleaned up', array('sessionId' => $sessionId));
 
         $this->sessionService->cleanUpSession($session);
         return false;

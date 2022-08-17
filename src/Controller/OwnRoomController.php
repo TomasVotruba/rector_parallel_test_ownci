@@ -24,7 +24,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class OwnRoomController extends JitsiAdminController
 {
-
     /**
      * @Route("/myRoom/start/{uid}", name="own_room_startPage")
      */
@@ -36,10 +35,11 @@ class OwnRoomController extends JitsiAdminController
             return $this->redirectToRoute('join_index_no_slug');
         }
         if (!StartMeetingService::checkTime($rooms)) {
-            $startPrint = $rooms->getTimeZone()?clone ($rooms->getStartUtc())->setTimeZone(new \DateTimeZone($rooms->getTimeZone())):$rooms->getStart();
+            $startPrint = $rooms->getTimeZone() ? clone ($rooms->getStartUtc())->setTimeZone(new \DateTimeZone($rooms->getTimeZone())) : $rooms->getStart();
             $startPrint->modify('-30min');
-            $endPrint = $rooms->getTimeZone()?$rooms->getEndDateUtc()->setTimeZone(new \DateTimeZone($rooms->getTimeZone())):$rooms->getEnddate();
-            $snack = $translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
+            $endPrint = $rooms->getTimeZone() ? $rooms->getEndDateUtc()->setTimeZone(new \DateTimeZone($rooms->getTimeZone())) : $rooms->getEnddate();
+            $snack = $translator->trans(
+                'Der Beitritt ist nur von {from} bis {to} möglich',
                 array(
                     '{from}' => $startPrint->format('d.m.Y H:i T'),
                     '{to}' => $endPrint->format('d.m.Y H:i T')
@@ -83,38 +83,36 @@ class OwnRoomController extends JitsiAdminController
                 //Die Lobby ist aktiviert und der Teilnehmer wird direkt in die Lobby überführt.
                 // Der teilnehmer muss in der Lobby von einem Lobbymoderator in die Konferenz überführt werden
                 if ($rooms->getLobby()) {
-                    if($this->getUser() && ($this->getUser() === $rooms->getModerator() || $this->getUser()->getPermissionForRoom($rooms)->getLobbyModerator())){
+                    if ($this->getUser() && ($this->getUser() === $rooms->getModerator() || $this->getUser()->getPermissionForRoom($rooms)->getLobbyModerator())) {
                         $res = $startMeetingService->createLobbyModeratorResponse();
-                    }else{
+                    } else {
                         $wui = null;
-                        if($request->cookies->has('waitinguser')){
+                        if ($request->cookies->has('waitinguser')) {
                             $wui = $request->cookies->get('waitinguser');
                         }
                         $res = $startMeetingService->createLobbyParticipantResponse($wui);
                         $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), (new \DateTime())->modify('+6 hours')));
                     }
                 } else {
-                    if($this->getUser() === $rooms->getModerator()){
+                    if ($this->getUser() === $rooms->getModerator()) {
                         $res = $startMeetingService->roomDefault();
-                    }else{
+                    } else {
                         $res = $this->redirectToRoute('room_waiting', array('name' => $data['name'], 'uid' => $rooms->getUid(), 'type' => $type));
                     }
-
                 }
             } else {
                 //Der Raum hat die Lobby aktiviert
                 if ($rooms->getLobby()) {
-                    if($this->getUser() && ($this->getUser() === $rooms->getModerator() || $this->getUser()->getPermissionForRoom($rooms)->getLobbyModerator())){
+                    if ($this->getUser() && ($this->getUser() === $rooms->getModerator() || $this->getUser()->getPermissionForRoom($rooms)->getLobbyModerator())) {
                         $res = $startMeetingService->createLobbyModeratorResponse();
-                    }else{
+                    } else {
                         $wui = null;
-                        if($request->cookies->has('waitinguser')){
+                        if ($request->cookies->has('waitinguser')) {
                             $wui = $request->cookies->get('waitinguser');
                         }
                         $res = $startMeetingService->createLobbyParticipantResponse($wui);
                         $res->headers->setCookie(new Cookie('waitinguser', $startMeetingService->getLobbyUser()->getUid(), (new \DateTime())->modify('+6 hours')));
                     }
-
                 } else {//Der Raum hat keine Lobby Aktiviert -->
                     // Der Fall hier: 1. Keine Zeit angegeben,
                     // 2. es ist keine Lobby aktiviert
@@ -136,7 +134,7 @@ class OwnRoomController extends JitsiAdminController
     /**
      * @Route("/mywaiting/waiting", name="room_waiting")
      */
-    public function waiting(Request $request,StartMeetingService $startMeetingService): Response
+    public function waiting(Request $request, StartMeetingService $startMeetingService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uid' => $request->get('uid')));
         $name = $request->get('name');
@@ -144,7 +142,7 @@ class OwnRoomController extends JitsiAdminController
         $now = new \DateTime('now', new \DateTimeZone('utc'));
 
         if (($room->getStartUtc() < $now && $room->getEndDateUtc() > $now)) {
-            $startMeetingService -> setAttribute($room,null,$type,$name);
+            $startMeetingService -> setAttribute($room, null, $type, $name);
             return $startMeetingService->roomDefault();
         }
         return $this->render('own_room/waiting.html.twig', [
@@ -179,7 +177,7 @@ class OwnRoomController extends JitsiAdminController
         $now = new \DateTime('now', new \DateTimeZone('utc'));
 
         if (($rooms->getStartUtc() < $now && $rooms->getEndDateUtc() > $now)) {
-            return new JsonResponse(array('error' => false, 'url' => $this->generateUrl('room_waiting',array('name'=>$name,'type'=>$type, 'uid'=>$rooms->getUid()))));
+            return new JsonResponse(array('error' => false, 'url' => $this->generateUrl('room_waiting', array('name' => $name, 'type' => $type, 'uid' => $rooms->getUid()))));
         } else {
             return new JsonResponse(array('error' => true));
         }

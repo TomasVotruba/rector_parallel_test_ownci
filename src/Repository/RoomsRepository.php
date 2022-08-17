@@ -108,7 +108,6 @@ class RoomsRepository extends ServiceEntityRepository
 
     public function findRuningRooms(User $user)
     {
-
         $now = new \DateTime('now', $this->timeZoneService->getTimeZone($user));
         $now->setTimezone(new \DateTimeZone('utc'));
         $qb = $this->createQueryBuilder('r');

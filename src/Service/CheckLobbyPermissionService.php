@@ -7,7 +7,6 @@ use App\Entity\User;
 
 class CheckLobbyPermissionService
 {
-
     public function checkPermissions(Rooms $room, ?User $user)
     {
         if ($room->getModerator() === $user) {

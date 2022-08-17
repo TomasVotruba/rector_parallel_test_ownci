@@ -18,6 +18,6 @@ class MoreFeaturesController extends JitsiAdminController
     public function index(Request $request): Response
     {
         $server = $this->doctrine->getRepository(Server::class)->find($request->get('id'));
-        return new JsonResponse(array('feature' => array('enableFeateureJwt' => $server->getFeatureEnableByJWT()?true:false)));
+        return new JsonResponse(array('feature' => array('enableFeateureJwt' => $server->getFeatureEnableByJWT() ? true : false)));
     }
 }

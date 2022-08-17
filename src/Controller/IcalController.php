@@ -24,9 +24,8 @@ class IcalController extends JitsiAdminController
      * @Route("/ical/{id}", name="ical")
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"id": "uid"}})
      */
-    public function index(User $user, UserService $userService,LicenseService $licenseService, IcalService $icalService): Response
+    public function index(User $user, UserService $userService, LicenseService $licenseService, IcalService $icalService): Response
     {
-
         $response = new Response();
         $response->headers->set('Content-Type', 'text/calendar; charset=utf-8');
         $response->headers->set('Content-Disposition', 'inline; filename="cal.ics"');

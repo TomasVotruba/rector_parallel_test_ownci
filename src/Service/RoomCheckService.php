@@ -38,7 +38,7 @@ class RoomCheckService
         return $room;
     }
 
-    function setRoomProps(Rooms $room)
+    public function setRoomProps(Rooms $room)
     {
         if ($room->getPersistantRoom()) {
             $counter = 0;
@@ -59,9 +59,8 @@ class RoomCheckService
             }
             $room->setStart(null);
             $room->setEnddate(null);
-
         } else {
-            if($room->getStart()){
+            if ($room->getStart()) {
                 $room->setEnddate((clone $room->getStart())->modify('+ ' . $room->getDuration() . ' minutes'));
             }
         }

@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdressbookController extends JitsiAdminController
 {
-
     /**
      * @Route("/room/adressbook/remove", name="adressbook_remove_user")
      */
@@ -24,6 +23,6 @@ class AdressbookController extends JitsiAdminController
         $em = $this->doctrine->getManager();
         $em->persist($myUser);
         $em->flush();
-     return  $this->redirectToRoute('dashboard');
+        return  $this->redirectToRoute('dashboard');
     }
 }

@@ -22,8 +22,6 @@ use function GuzzleHttp\Psr7\str;
 
 class ParticipantController extends JitsiAdminController
 {
-
-
     /**
      * @Route("/room/participant/search", name="search_participant")
      */
@@ -35,9 +33,9 @@ class ParticipantController extends JitsiAdminController
         $group = $this->doctrine->getRepository(AddressGroup::class)->findMyAddressBookGroupsByName($string, $this->getUser());
 
         $res = array();
-        if($this->parameterBag->get('strict_allow_user_creation') == 1){
-            $res['user'] = $participantSearchService->generateUserwithEmptyUser($user,$string);
-        }else{
+        if ($this->parameterBag->get('strict_allow_user_creation') == 1) {
+            $res['user'] = $participantSearchService->generateUserwithEmptyUser($user, $string);
+        } else {
             $res['user'] = $participantSearchService->generateUserwithoutEmptyUser($user);
         }
         $res['group'] = $participantSearchService->generateGroup($group);
@@ -59,8 +57,6 @@ class ParticipantController extends JitsiAdminController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-
             $newMembers = $form->getData();
             $falseEmail = [];
             $falseEmail = array_merge(
@@ -86,9 +82,8 @@ class ParticipantController extends JitsiAdminController
     /**
      * @Route("/room/participant/past", name="room_past_user")
      */
-    public function roompastUser(Request $request,ThemeService $themeService)
+    public function roompastUser(Request $request, ThemeService $themeService)
     {
-
         $room = $this->getDoctrine()->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         if ($room->getModerator() !== $this->getUser() && $themeService->getApplicationProperties('LAF_SHOW_PARTICIPANTS_ON_PARTICIPANTS') === 0) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
@@ -102,10 +97,8 @@ class ParticipantController extends JitsiAdminController
     /**
      * @Route("/room/participant/remove", name="room_user_remove")
      */
-    public
-    function roomUserRemove(Request $request, UserService $userService, RoomAddService $roomAddService)
+    public function roomUserRemove(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
-
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(['id' => $request->get('room')]);
         $repeater = false;
 
@@ -133,20 +126,19 @@ class ParticipantController extends JitsiAdminController
     /**
      * @Route("/room/participant/resend", name="room_user_resend")
      */
-    public
-    function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
+    public function roomUserResend(Request $request, UserService $userService, RoomAddService $roomAddService)
     {
-        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal'=>$request->get('room')));
+        $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('room')));
         if ($room->getModerator() !== $this->getUser()) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
-        $user = $this->doctrine->getRepository(User::class)->findOneBy(array('id'=>$request->get('user')));
-        if(!in_array($room,$user->getRooms()->toArray())){
+        $user = $this->doctrine->getRepository(User::class)->findOneBy(array('id' => $request->get('user')));
+        if (!in_array($room, $user->getRooms()->toArray())) {
             $this->addFlash('danger', $this->translator->trans('Keine Berechtigung'));
             return $this->redirectToRoute('dashboard');
         }
-        $userService->addUser($user,$room);
+        $userService->addUser($user, $room);
         $this->addFlash('success', $this->translator->trans('participant.resend.invitation.sucess'));
         return $this->redirectToRoute('dashboard');
     }

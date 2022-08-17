@@ -52,11 +52,10 @@ class RoomStatusRepository extends ServiceEntityRepository
     */
     public function findCreatedRooms(Rooms $rooms): ?RoomStatus
     {
+        $qb = $this->createQueryBuilder('r');
 
-        $qb =  $this->createQueryBuilder('r');
-
-            return $qb->andWhere($qb->expr()->isNull('r.destroyed'))
-            ->innerJoin('r.room','room')
+        return $qb->andWhere($qb->expr()->isNull('r.destroyed'))
+            ->innerJoin('r.room', 'room')
             ->andWhere('room =:room')
             ->setParameter('room', $rooms)
             ->getQuery()
@@ -64,16 +63,14 @@ class RoomStatusRepository extends ServiceEntityRepository
     }
     public function findCreatedRoomsbyJitsiId($jitsiId): ?RoomStatus
     {
-        $id = explode('@',strrev($jitsiId),2);
-        $id = strrev($id[sizeof($id)-1]);
-        $qb =  $this->createQueryBuilder('r');
+        $id = explode('@', strrev($jitsiId), 2);
+        $id = strrev($id[sizeof($id) - 1]);
+        $qb = $this->createQueryBuilder('r');
 
         return $qb->andWhere($qb->expr()->isNull('r.destroyed'))
             ->andWhere('r.jitsiRoomId LIKE :jitsiid')
-            ->setParameter('jitsiid', '%'.addcslashes($id,'%_').'%')
+            ->setParameter('jitsiid', '%' . addcslashes($id, '%_') . '%')
             ->getQuery()
             ->getOneOrNullResult();
     }
-
-
 }

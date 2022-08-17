@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -20,14 +21,10 @@ use function GuzzleHttp\Psr7\str;
 
 class CheckRoomPermissions extends AbstractExtension
 {
-
-
-
     private $em;
     public function __construct(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
     {
         $this->em = $entityManager;
-
     }
 
     public function getFunctions(): array
@@ -36,13 +33,12 @@ class CheckRoomPermissions extends AbstractExtension
             new TwigFunction('roomPermissions', [$this, 'roomPermissions']),
         ];
     }
-    public function roomPermissions(User $user, Rooms $rooms):?RoomsUser
+    public function roomPermissions(User $user, Rooms $rooms): ?RoomsUser
     {
-      $permissions = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user'=>$user, 'room'=>$rooms));
-     if(!$permissions){
-         $permissions = new RoomsUser();
-     }
-      return $permissions;
+        $permissions = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+        if (!$permissions) {
+            $permissions = new RoomsUser();
+        }
+        return $permissions;
     }
-
 }

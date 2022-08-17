@@ -88,6 +88,4 @@ class RoomStatusParticipantRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
 }

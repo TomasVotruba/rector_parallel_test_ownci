@@ -30,7 +30,7 @@ class EmailTestCommand extends Command
     {
         parent::__construct($name);
         $this->mailerService = $mailerService;
-        $this->em= $entityManager;
+        $this->em = $entityManager;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -41,7 +41,7 @@ class EmailTestCommand extends Command
         $email = $input->getArgument('email');
         if (!$server) {
             $io->error('Enter a valid Server ID');
-         return Command::FAILURE;
+            return Command::FAILURE;
         }
 
         if (!$email) {
@@ -50,7 +50,7 @@ class EmailTestCommand extends Command
         }
         $user = new User();
         $user->setEmail($email);
-        $this->mailerService ->sendEmail($user, 'Test-Email from command',sprintf('<h1>This email was send from a command</h1><br><p>Server:%s<br>SMTP-Host:%s<br>Check the From header to make sure the server is correct</p>',$server->getUrl(),$server->getSmtpHost()),$server);
+        $this->mailerService ->sendEmail($user, 'Test-Email from command', sprintf('<h1>This email was send from a command</h1><br><p>Server:%s<br>SMTP-Host:%s<br>Check the From header to make sure the server is correct</p>', $server->getUrl(), $server->getSmtpHost()), $server);
 
 
         return Command::SUCCESS;

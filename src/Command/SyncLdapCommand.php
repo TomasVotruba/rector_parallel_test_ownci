@@ -41,7 +41,7 @@ class SyncLdapCommand extends Command
     private $LDAPSERVERID;
     private $LDAP_SPECIALFIELD;
     private $LDAPFILTER;
-    public function __construct(LdapUserService $ldapUserService,  ParameterBagInterface $parameterBag, LdapService $ldapService, string $name = null)
+    public function __construct(LdapUserService $ldapUserService, ParameterBagInterface $parameterBag, LdapService $ldapService, string $name = null)
     {
         parent::__construct($name);
         $this->paramterBag = $parameterBag;
@@ -80,7 +80,7 @@ class SyncLdapCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $dryrun = $input->getOption('dry-run');
-        if ($dryrun){
+        if ($dryrun) {
             $io->info('Dryrun is activated. No databases changes are made');
         }
 
@@ -121,15 +121,13 @@ class SyncLdapCommand extends Command
         $numberUsers = 0;
         if (sizeof($this->LDAP) > 0) {
             foreach ($this->LDAP as $data) {
-
                 $resTmp = null;
                 try {
-                    $resTmp = $this->ldapService->fetchLdap($data,$dryrun);
+                    $resTmp = $this->ldapService->fetchLdap($data, $dryrun);
                 } catch (LdapException $e) {
                     $error = true;
                     $io->error('Fehler in LDAP: ' . $ldap->getUrl());
                     $io->error('Fehler: ' . $e->getMessage());
-
                 } catch (NotBoundException $e) {
                     $error = true;
                     $io->error('Fehler in LDAP-Bound: ' . $ldap->getUrl());
@@ -144,7 +142,7 @@ class SyncLdapCommand extends Command
                 $table->setHeaders(['email', 'uid', 'dn', 'rdn']);
                 $table->setHeaderTitle($ldap->getUrl());
                 $table->setStyle('borderless');
-                if(is_array($resTmp['user'])) {
+                if (is_array($resTmp['user'])) {
                     foreach ($resTmp['user'] as $data2) {
                         $numberUsers++;
                         $table->addRow([$data2->getEmail(), $data2->getUserName(), $data2->getLdapUserProperties()->getLdapDn(), $data2->getLdapUserProperties()->getRdn()]);
@@ -152,7 +150,6 @@ class SyncLdapCommand extends Command
                 }
                 $table->render();
             }
-
         }
 
         $io->info('We found # users: ' . $numberUsers);
@@ -163,6 +160,5 @@ class SyncLdapCommand extends Command
             $io->error('There was an error. Check the output above');
             return Command::FAILURE;
         }
-
     }
 }

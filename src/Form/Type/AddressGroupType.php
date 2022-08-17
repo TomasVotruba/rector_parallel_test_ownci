@@ -33,19 +33,17 @@ class AddressGroupType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $user = $options['user'];
         $builder
             ->add('name', TextType::class, ['attr' => ['placeholder' => 'label.addressgroupName'], 'label' => false, 'required' => true, 'translation_domain' => 'form'])
             ->add('member', EntityType::class, array(
-                'label'=>'label.addressgroupMember',
+                'label' => 'label.addressgroupMember',
                 'class' => User::class,
                 'multiple' => true,
                 'expanded' => true,
-                'label_html'=>true,
-                'choice_label' => function(User $user){
+                'label_html' => true,
+                'choice_label' => function (User $user) {
                     return $this->participantSearchService->buildShowInFrontendString($user);
-
                 },
                 'choices' => $user->getAddressbook(),
                 'translation_domain' => 'form'
@@ -56,8 +54,8 @@ class AddressGroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class'=>Addressgroup::class,
-            'user'=>new User(),
+            'data_class' => Addressgroup::class,
+            'user' => new User(),
         ]);
     }
 }

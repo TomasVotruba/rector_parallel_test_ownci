@@ -18,9 +18,10 @@ class APILicenseController extends JitsiAdminController
      */
     public function index(Request $request, LicenseService $licenseService): Response
     {
-        return new JsonResponse($licenseService->generateNewLicense(
-            $request->get('license')
-        )
+        return new JsonResponse(
+            $licenseService->generateNewLicense(
+                $request->get('license')
+            )
         );
     }
 }

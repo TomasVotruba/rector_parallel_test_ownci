@@ -26,8 +26,6 @@ use function Symfony\Component\String\s;
 
 class ShareLinkController extends JitsiAdminController
 {
-
-
     /**
      * @Route("/room/share/link/{id}", name="share_link")
      * @ParamConverter("rooms")
@@ -38,7 +36,6 @@ class ShareLinkController extends JitsiAdminController
             throw new NotFoundHttpException('Not found');
         }
         return $this->render('share_link/__shareLinkModal.html.twig', array('room' => $rooms));
-
     }
 
     /**
@@ -71,7 +68,7 @@ class ShareLinkController extends JitsiAdminController
             }
         }
         if (!$rooms || $rooms->getModerator() === null) {
-            $this->addFlash('danger',$translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
+            $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
             return $this->redirectToRoute('join_index_no_slug');
         }
 
@@ -95,12 +92,12 @@ class ShareLinkController extends JitsiAdminController
             $snack = $res['text'];
             $color = $res['color'];
             if (!$res['error']) {
-                $this->addFlash($color,$snack);
+                $this->addFlash($color, $snack);
                 return $this->redirectToRoute('public_subscribe_participant', array( 'uid' => $uid));
             }
         }
         $server = $rooms->getServer();
-        $this->addFlash($color,$snack);
+        $this->addFlash($color, $snack);
         return $this->render('share_link/subscribe.html.twig', [
             'form' => $form->createView(),
             'server' => $server,

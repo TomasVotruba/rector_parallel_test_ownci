@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -53,5 +52,4 @@ class ReminderService
         $message = ['error' => false, 'hinweis' => 'Cron ok', 'Konferenzen' => count($rooms), 'Emails' => $emails];
         return $message;
     }
-
 }

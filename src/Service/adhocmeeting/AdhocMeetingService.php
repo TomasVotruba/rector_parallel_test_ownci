@@ -27,16 +27,16 @@ class AdhocMeetingService
     private UrlGeneratorInterface $urlGen;
     private $theme;
 
-    public function __construct(EntityManagerInterface $entityManager,
-                                RoomGeneratorService   $roomGeneratorService,
-                                ParameterBagInterface  $parameterBag,
-                                TranslatorInterface    $translator,
-                                DirectSendService      $directSendService,
-                                UserService            $userService,
-                                UrlGeneratorInterface  $urlGenerator,
-                                ThemeService           $themeService
-    )
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        RoomGeneratorService   $roomGeneratorService,
+        ParameterBagInterface  $parameterBag,
+        TranslatorInterface    $translator,
+        DirectSendService      $directSendService,
+        UserService            $userService,
+        UrlGeneratorInterface  $urlGenerator,
+        ThemeService           $themeService
+    ) {
         $this->em = $entityManager;
         $this->roomGeneratorService = $roomGeneratorService;
         $this->parameterBag = $parameterBag;

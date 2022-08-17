@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\LobbyWaitungUser;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
@@ -47,7 +46,7 @@ class PermissionChangeService
      * @param Rooms $rooms
      * @return bool
      */
-    function toggleShareScreen(User $oldUser, User $user, Rooms $rooms)
+    public function toggleShareScreen(User $oldUser, User $user, Rooms $rooms)
     {
         $repeater = false;
         if ($rooms->getRepeater()) {
@@ -84,7 +83,7 @@ class PermissionChangeService
      * @param Rooms $rooms
      * @return bool
      */
-    function toggleModerator(User $oldUser, User $user, Rooms $rooms)
+    public function toggleModerator(User $oldUser, User $user, Rooms $rooms)
     {
         $repeater = false;
         if ($rooms->getRepeater()) {
@@ -122,7 +121,7 @@ class PermissionChangeService
      * @param Rooms $rooms
      * @return bool
      */
-    function toggleLobbyModerator(User $oldUser, User $user, Rooms $rooms)
+    public function toggleLobbyModerator(User $oldUser, User $user, Rooms $rooms)
     {
         $repeater = false;
         if ($rooms->getRepeater()) {
@@ -146,16 +145,18 @@ class PermissionChangeService
             if ($repeater) {
                 $this->repeaterService->addUserRepeat($rooms->getRepeaterProtoype());
             }
-            $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user'=>$user,'room'=>$rooms));
-            if($lobbyUser){
+            $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user' => $user, 'room' => $rooms));
+            if ($lobbyUser) {
                 $this->em->remove($lobbyUser);
                 $this->em->flush();
             }
-            $topic = 'lobby_personal' . $rooms->getUidReal()  . $user->getUid();
+            $topic = 'lobby_personal' . $rooms->getUidReal() . $user->getUid();
             $this->websocketService->sendSnackbar($topic, $this->translator->trans('lobby.change.moderator.permissions'), 'info');
             $this->websocketService->sendReloadPage($topic, $this->parameterBag->get('laf_lobby_popUpDuration'));
-            $this->websocketService->sendRefresh('lobby_moderator/'.$rooms->getUidReal(),
-                $this->urlGen->generate('lobby_moderator', array('uid' => $rooms->getUidReal())) . ' #waitingUser');
+            $this->websocketService->sendRefresh(
+                'lobby_moderator/' . $rooms->getUidReal(),
+                $this->urlGen->generate('lobby_moderator', array('uid' => $rooms->getUidReal())) . ' #waitingUser'
+            );
 
             return $roomsUser;
         }
@@ -171,7 +172,7 @@ class PermissionChangeService
      * @param Rooms $rooms
      * @return bool
      */
-    function togglePrivateMessage(User $oldUser, User $user, Rooms $rooms)
+    public function togglePrivateMessage(User $oldUser, User $user, Rooms $rooms)
     {
         $repeater = false;
         if ($rooms->getRepeater()) {

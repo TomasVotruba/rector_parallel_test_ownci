@@ -3,7 +3,6 @@
 
 namespace App\Service\ldap;
 
-
 use App\dataType\LdapType;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,7 +18,6 @@ use Symfony\Component\Ldap\Ldap;
 
 class LdapService
 {
-
     private $ldapUserService;
     private $em;
 
@@ -27,7 +25,6 @@ class LdapService
     {
         $this->ldapUserService = $ldapUserService;
         $this->em = $entityManager;
-
     }
 
     /**
@@ -52,7 +49,6 @@ class LdapService
         } catch (\Exception $e) {
             throw $e;
         }
-
     }
 
 
@@ -66,7 +62,6 @@ class LdapService
      */
     public function retrieveUser(LdapType $ldap)
     {
-
         $options = array(
             'scope' => $ldap->getScope(),
         );
@@ -84,11 +79,10 @@ class LdapService
      */
     public function fetchLdap(LdapType $ldap, $dryRun = false)
     {
-
         $user = null;
 
         try {
-            $userLdap =//Here we fetch all coresponding users from the LDAP
+            $userLdap = //Here we fetch all coresponding users from the LDAP
                 $this->retrieveUser($ldap);
             foreach ($userLdap as $u) {// Here we itterate over the user from user
                 $user[] = $this->ldapUserService->retrieveUserfromDatabasefromUserNameAttribute($u, $ldap, $dryRun);

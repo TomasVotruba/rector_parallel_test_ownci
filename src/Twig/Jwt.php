@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -31,17 +32,16 @@ class Jwt extends AbstractExtension
             new TwigFunction('urlFromRoom', [$this, 'urlFromRoom']),
         ];
     }
-    public function jwtFromRoom(?User $user,Rooms $rooms, $name)
+    public function jwtFromRoom(?User $user, Rooms $rooms, $name)
     {
-        return $this->roomService->generateJwt($rooms,$user,$name);
+        return $this->roomService->generateJwt($rooms, $user, $name);
     }
-    public function urlFromRoom(?User $user,Rooms $rooms, $name, $t)
+    public function urlFromRoom(?User $user, Rooms $rooms, $name, $t)
     {
-        if($user){
-            return $this->roomService->join($rooms,$user, $t, $name);
-        }else{
-            return $this->roomService->joinUrl($t,$rooms,$name,false);
+        if ($user) {
+            return $this->roomService->join($rooms, $user, $t, $name);
+        } else {
+            return $this->roomService->joinUrl($t, $rooms, $name, false);
         }
-
     }
 }

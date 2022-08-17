@@ -8,7 +8,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
@@ -23,7 +22,6 @@ use Symfony\Component\Mime\Email;
 
 class MailerService
 {
-
     private $parameter;
     private $kernel;
     private $logger;
@@ -34,7 +32,6 @@ class MailerService
 
     public function __construct(LicenseService $licenseService, LoggerInterface $logger, ParameterBagInterface $parameterBag, KernelInterface $kernel, MailerInterface $mailer)
     {
-
         $this->parameter = $parameterBag;
         $this->kernel = $kernel;
         $this->logger = $logger;
@@ -46,14 +43,13 @@ class MailerService
 
     public function buildTransport(Server $server)
     {
-
         if ($server->getSmtpHost()) {
             $this->logger->info('Build new Transport: ' . $server->getSmtpHost());
             if ($this->userName != $server->getSmtpUsername()) {
                 $this->userName = $server->getSmtpUsername();
                 $this->logger->info('The Transport is new and we take him');
                 $dsn = 'smtp://' . $server->getSmtpUsername() . ':' . $server->getSmtpPassword() . '@' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
-            }else{
+            } else {
                 $dsn = 'smtp://' . $server->getSmtpHost() . ':' . $server->getSmtpPort() . '?verify_peer=false';
             }
             $this->customMailer = Transport::fromDsn($dsn);
@@ -85,7 +81,6 @@ class MailerService
         try {
             $this->logger->info('Mail To: ' . $to);
             $res = $this->sendViaMailer($to, $betreff, $content, $server, $replyTo, $rooms, $attachment, $cc);
-
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             $res = false;
@@ -137,7 +132,7 @@ class MailerService
         try {
             if ($server->getSmtpHost()) {
                 if ($this->kernel->getEnvironment() === 'dev') {
-                    foreach ($this->parameter->get('delivery_addresses') as $data){
+                    foreach ($this->parameter->get('delivery_addresses') as $data) {
                         $message->to($data);
                     }
                 }

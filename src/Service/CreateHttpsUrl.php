@@ -40,12 +40,10 @@ class CreateHttpsUrl
                 return $this->paramterBag->get('laF_baseUrl') . $url;
             }
         }
-
     }
 
     public function generateAbsolutUrl($baseUrl, $url)
     {
         return str_replace('http://', 'https://', $baseUrl) . $url;
     }
-
 }

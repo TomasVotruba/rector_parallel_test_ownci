@@ -16,7 +16,7 @@ class FavoriteController extends JitsiAdminController
     /**
      * @Route("/room/favorite/toggle", name="room_favorite_toogle")
      */
-    public function index(Request $request,TranslatorInterface $translator, FavoriteService $favoriteService): Response
+    public function index(Request $request, TranslatorInterface $translator, FavoriteService $favoriteService): Response
     {
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
         $user = $this->getUser();
@@ -27,7 +27,7 @@ class FavoriteController extends JitsiAdminController
             } else {
                 $user->addFavorite($room);
             }
-        }else{
+        } else {
             $this->addFlash('danger', $translator->trans('Fehler'));
             return $this->redirectToRoute('dashboard');
         }

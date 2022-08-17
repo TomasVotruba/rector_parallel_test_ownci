@@ -11,10 +11,11 @@ class RenameServerService
     {
         $this->em = $entityManager;
     }
-    public function renameServer($servers){
+    public function renameServer($servers)
+    {
         $res = array();
-        foreach ($servers as $data){
-            if ($data->getServerName() === '' || $data->getServerName() === null){
+        foreach ($servers as $data) {
+            if ($data->getServerName() === '' || $data->getServerName() === null) {
                 $data->setServerName($data->getUrl());
                 $this->em->persist($data);
                 $res[] = $data;
@@ -23,5 +24,4 @@ class RenameServerService
         $this->em->flush();
         return $res;
     }
-
 }

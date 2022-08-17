@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\User;
@@ -68,7 +67,6 @@ class IcalService
         }
 
         return $value;
-
     }
 
     public function initRooms(User $user)
@@ -95,16 +93,19 @@ class IcalService
             $end = (clone $this->rooms[sizeof($this->rooms) - 1]->getEndDate())->modify('+1year');
         }
 
-        $cal->addTimeZone(TimeZone::createFromPhpDateTimeZone($timeZone,
-            new DateTimeImmutable($start->format('Y-m-d H:i:s'), $timeZone),
-            new DateTimeImmutable($end->format('Y-m-d H:i:s'), $timeZone)
-        )
+        $cal->addTimeZone(
+            TimeZone::createFromPhpDateTimeZone(
+                $timeZone,
+                new DateTimeImmutable($start->format('Y-m-d H:i:s'), $timeZone),
+                new DateTimeImmutable($end->format('Y-m-d H:i:s'), $timeZone)
+            )
         );
         foreach ($this->rooms as $event) {
             $vEvent = new Event();
             $url = $this->userService->generateUrl($event, $user);
             $vEvent
-                ->setOccurrence(new TimeSpan(
+                ->setOccurrence(
+                    new TimeSpan(
                         new DateTime($event->getStartWithTimeZone($user)->setTimeZone($timeZone), true),
                         new DateTime($event->getEndwithTimeZone($user)->setTimeZone($timeZone), true)
                     )
@@ -119,12 +120,12 @@ class IcalService
             $alarmInterval = new \DateInterval('PT10M');
             $alarmInterval->invert = 1;
             $vEvent->addAlarm(
-                new \Eluceo\iCal\Domain\ValueObject\Alarm(new \Eluceo\iCal\Domain\ValueObject\Alarm\AudioAction(),
+                new \Eluceo\iCal\Domain\ValueObject\Alarm(
+                    new \Eluceo\iCal\Domain\ValueObject\Alarm\AudioAction(),
                     new \Eluceo\iCal\Domain\ValueObject\Alarm\RelativeTrigger($alarmInterval)
                 )
             );
             $cal->addEvent($vEvent);
-
         }
         $componentFactory = new CalendarFactory();
         $value = $componentFactory->createCalendar($cal);
@@ -145,7 +146,5 @@ class IcalService
     public function setRooms($rooms): void
     {
         $this->rooms = array_values($rooms);
-
     }
-
 }

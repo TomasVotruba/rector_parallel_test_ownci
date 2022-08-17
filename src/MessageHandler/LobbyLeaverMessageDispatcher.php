@@ -12,7 +12,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 class LobbyLeaverMessageDispatcher implements MessageHandlerInterface
 {
-
     private LoggerInterface $logger;
     private $toModerator;
     private EntityManagerInterface $em;

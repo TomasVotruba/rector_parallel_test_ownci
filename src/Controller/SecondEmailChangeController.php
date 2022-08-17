@@ -14,11 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-
 class SecondEmailChangeController extends JitsiAdminController
 {
-
-
     /**
      * @Route("/room/secondEmail/change", name="second_email_change")
      */

@@ -33,9 +33,9 @@ class CallerPrepareService
      */
     public function prepareCallerId()
     {
-        $this->addNewId();;
+        $this->addNewId();
+        ;
         $this->deleteOldId();
-
     }
 
     /**
@@ -138,7 +138,6 @@ class CallerPrepareService
      */
     public function createUserCallerIDforRoom(Rooms $rooms)
     {
-
         foreach ($rooms->getUser() as $data) {
             $callerID = $this->em->getRepository(CallerId::class)->findOneBy(array('room' => $rooms, 'user' => $data));
             if (!$callerID) {

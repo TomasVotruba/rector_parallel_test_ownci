@@ -18,7 +18,7 @@ class LoginControllerKeycloak extends JitsiAdminController
      */
     public function index(ClientRegistry $clientRegistry): Response
     {
-      return $clientRegistry->getClient('keycloak_main')->redirect(['email']);
+        return $clientRegistry->getClient('keycloak_main')->redirect(['email']);
     }
 
     /**
@@ -26,16 +26,15 @@ class LoginControllerKeycloak extends JitsiAdminController
      */
     public function register(ClientRegistry $clientRegistry, CreateHttpsUrl $createHttpsUrl): Response
     {
-        $url = $this->getParameter('KEYCLOAK_URL').'/realms/'.$this->getParameter('KEYCLOAK_REALM').'/protocol/openid-connect/registrations?client_id='.
-            $this->getParameter('KEYCLOAK_ID').
-            '&response_type=code&scope=openid email&redirect_uri='.$createHttpsUrl->createHttpsUrl($this->generateUrl('connect_keycloak_check',array())).'&kc_locale=de';
+        $url = $this->getParameter('KEYCLOAK_URL') . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/protocol/openid-connect/registrations?client_id=' .
+            $this->getParameter('KEYCLOAK_ID') .
+            '&response_type=code&scope=openid email&redirect_uri=' . $createHttpsUrl->createHttpsUrl($this->generateUrl('connect_keycloak_check', array())) . '&kc_locale=de';
         return $this->redirect($url);
     }
 
 
     public function check(ClientRegistry $clientRegistry, Request $request)
     {
-
     }
 
     /**
@@ -43,7 +42,7 @@ class LoginControllerKeycloak extends JitsiAdminController
      */
     public function edit(ClientRegistry $clientRegistry, Request $request)
     {
-        $url = $this->getParameter('KEYCLOAK_URL').'/realms/'.$this->getParameter('KEYCLOAK_REALM').'/account';
+        $url = $this->getParameter('KEYCLOAK_URL') . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/account';
         return $this->redirect($url);
     }
     /**
@@ -51,7 +50,7 @@ class LoginControllerKeycloak extends JitsiAdminController
      */
     public function password(ClientRegistry $clientRegistry, Request $request)
     {
-        $url = $this->getParameter('KEYCLOAK_URL').'/realms/'.$this->getParameter('KEYCLOAK_REALM').'/account/password';
+        $url = $this->getParameter('KEYCLOAK_URL') . '/realms/' . $this->getParameter('KEYCLOAK_REALM') . '/account/password';
         return $this->redirect($url);
     }
 }

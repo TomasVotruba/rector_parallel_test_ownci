@@ -7,8 +7,6 @@ use App\Entity\Rooms;
 use App\Entity\User;
 use App\Helper\JitsiAdminController;
 use App\Message\LobbyLeaverMessage;
-use Symfony\Component\Messenger\Envelope;
-use Symfony\Component\Messenger\Stamp\DelayStamp;
 use App\Service\Lobby\CreateLobbyUserService;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\ToModeratorWebsocketService;
@@ -19,10 +17,11 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-
 
 class LobbyParticipantsController extends JitsiAdminController
 {
@@ -31,17 +30,17 @@ class LobbyParticipantsController extends JitsiAdminController
     private $createLobbyUserService;
     private EventDispatcherInterface $eventDispatcher;
 
-    public function __construct(ManagerRegistry               $managerRegistry,
-                                TranslatorInterface           $translator,
-                                LoggerInterface               $logger,
-                                ParameterBagInterface         $parameterBag,
-                                CreateLobbyUserService        $createLobbyUserService,
-                                ToParticipantWebsocketService $toParticipantWebsocketService,
-                                ToModeratorWebsocketService   $toModeratorWebsocketService,
-                                DirectSendService             $lobbyUpdateService,
-                                EventDispatcherInterface      $eventDispatcher
-    )
-    {
+    public function __construct(
+        ManagerRegistry               $managerRegistry,
+        TranslatorInterface           $translator,
+        LoggerInterface               $logger,
+        ParameterBagInterface         $parameterBag,
+        CreateLobbyUserService        $createLobbyUserService,
+        ToParticipantWebsocketService $toParticipantWebsocketService,
+        ToModeratorWebsocketService   $toModeratorWebsocketService,
+        DirectSendService             $lobbyUpdateService,
+        EventDispatcherInterface      $eventDispatcher
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->lobbyUpdateService = $lobbyUpdateService;
         $this->toModerator = $toModeratorWebsocketService;
@@ -55,7 +54,6 @@ class LobbyParticipantsController extends JitsiAdminController
      */
     public function index($roomUid, $userUid, $type): Response
     {
-
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $roomUid));
         $user = $this->doctrine->getRepository(User::class)->findOneBy(array('uid' => $userUid));
         $lobbyUser = $this->createLobbyUserService->createNewLobbyUser($user, $room, $type);
@@ -74,7 +72,6 @@ class LobbyParticipantsController extends JitsiAdminController
         }
 
         return new JsonResponse(array('error' => true));
-
     }
 
     /**
@@ -113,7 +110,6 @@ class LobbyParticipantsController extends JitsiAdminController
      */
     public function browser($userUid, MessageBusInterface $bus): Response
     {
-
         $lobbyUser = $this->doctrine->getRepository(LobbyWaitungUser::class)->findOneBy(array('uid' => $userUid));
         if ($lobbyUser) {
             $em = $this->doctrine->getManager();
@@ -122,7 +118,8 @@ class LobbyParticipantsController extends JitsiAdminController
             $em->flush();
             $bus->dispatch(
                 new Envelope(
-                    new LobbyLeaverMessage($userUid), [
+                    new LobbyLeaverMessage($userUid),
+                    [
                         new DelayStamp(3000)
                     ]
                 )

@@ -17,7 +17,7 @@ class AddSlugToServerCommand extends Command
     protected static $defaultName = 'app:addSlugToServer';
     private $em;
     private $serverService;
-    public function __construct(EntityManagerInterface $entityManager,ServerService $serverService, string $name = null)
+    public function __construct(EntityManagerInterface $entityManager, ServerService $serverService, string $name = null)
     {
         parent::__construct($name);
         $this->em = $entityManager;
@@ -36,20 +36,20 @@ class AddSlugToServerCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $server = $this->em->getRepository(Server::class)->findAll();
         $counter = 0;
-        foreach ($server as $data){
-            if(!$data->getSlug()){
+        foreach ($server as $data) {
+            if (!$data->getSlug()) {
                 $counter++;
 
-                    $slug = $this->serverService->makeSlug($data->getUrl());
-                    $data->setSlug($slug);
-                    $this->em->persist($data);
-                    $io->writeln($slug);
-                    $this->em->flush();
+                $slug = $this->serverService->makeSlug($data->getUrl());
+                $data->setSlug($slug);
+                $this->em->persist($data);
+                $io->writeln($slug);
+                $this->em->flush();
             }
         }
 
 
-        $io->success('We transformed '.$counter.' Servers');
+        $io->success('We transformed ' . $counter . ' Servers');
 
         return Command::SUCCESS;
     }

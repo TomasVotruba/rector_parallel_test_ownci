@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -23,9 +24,6 @@ use function GuzzleHttp\Psr7\str;
 
 class ImagePexels extends AbstractExtension
 {
-
-
-
     private $em;
     private $pexelsService;
     public function __construct(PexelService $pexelService, EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
@@ -42,8 +40,6 @@ class ImagePexels extends AbstractExtension
     }
     public function pexelsImage()
     {
-
-       return $this->pexelsService->getImageFromPexels();
+        return $this->pexelsService->getImageFromPexels();
     }
-
 }

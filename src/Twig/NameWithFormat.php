@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -28,8 +29,8 @@ class NameWithFormat extends AbstractExtension
         ];
     }
 
-    public function nameOfUserwithFormat(User $user,$string)
+    public function nameOfUserwithFormat(User $user, $string)
     {
-        return $this->formateName->formatName($string,$user);
+        return $this->formateName->formatName($string, $user);
     }
 }

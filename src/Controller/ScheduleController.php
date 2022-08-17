@@ -50,7 +50,6 @@ class ScheduleController extends JitsiAdminController
             if (!$room->getUidParticipant()) {
                 $room->setUidParticipant(md5(uniqid('h2-invent', true)));
             }
-
         } else {
             $serverChhose = null;
             if ($request->cookies->has('room_server')) {
@@ -60,17 +59,16 @@ class ScheduleController extends JitsiAdminController
                 }
             }
             if (sizeof($servers) === 1) {
-
                 $serverChhose = $servers[0];
             }
-            $room = $roomGeneratorService->createRoom($this->getUser(),$serverChhose);
+            $room = $roomGeneratorService->createRoom($this->getUser(), $serverChhose);
             $snack = $translator->trans('Terminplanung erfolgreich erstellt');
             $title = $translator->trans('Neue Terminplanung erstellen');
         }
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
 
 
-        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()]),'isEdit'=>(bool)$request->get('id')]);
+        $form = $this->createForm(RoomType::class, $room, ['server' => $servers, 'action' => $this->generateUrl('schedule_admin_new', ['id' => $room->getId()]), 'isEdit' => (bool)$request->get('id')]);
 
         $form->remove('scheduleMeeting');
         $form->remove('start');
@@ -81,7 +79,6 @@ class ScheduleController extends JitsiAdminController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
                 $room = $form->getData();
                 $error = array();
 
@@ -111,16 +108,15 @@ class ScheduleController extends JitsiAdminController
                 $res = $this->generateUrl('dashboard');
                 $this->addFlash('success', $snack);
                 $this->addFlash('modalUrl', $modalUrl);
-                return new JsonResponse(array('error'=>false, 'redirectUrl'=>$res,'cookie'=>array('room_server'=>$room->getServer()->getId())));
-
+                return new JsonResponse(array('error' => false, 'redirectUrl' => $res, 'cookie' => array('room_server' => $room->getServer()->getId())));
             }
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $this->addFlash('danger',$snack );
+            $this->addFlash('danger', $snack);
             $res = $this->generateUrl('dashboard');
-            return new JsonResponse(array('error'=>false,'redirectUrl'=>$res));
+            return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
         }
-        return $this->render('base/__newRoomModal.html.twig', array('server'=>$servers, 'form' => $form->createView(), 'title' => $title));
+        return $this->render('base/__newRoomModal.html.twig', array('server' => $servers, 'form' => $form->createView(), 'title' => $title));
     }
 
     /**
@@ -154,7 +150,6 @@ class ScheduleController extends JitsiAdminController
                 $schedule = new  Scheduling();
                 $schedule->setUid(md5(uniqid()));
                 $schedule->setRoom($rooms);
-
             } else {
                 $schedule = $schedule[0];
             }
@@ -182,7 +177,6 @@ class ScheduleController extends JitsiAdminController
             throw new NotFoundHttpException('Room not found');
         }
         try {
-
             $em = $this->doctrine->getManager();
             foreach ($schedulingTime->getSchedulingTimeUsers() as $data) {
                 $em->remove($data);
@@ -210,9 +204,9 @@ class ScheduleController extends JitsiAdminController
         $color = 'success';
         if (!$schedulingService->chooseTimeSlot($schedulingTime)) {
             $text = $translator->trans('Fehler, Bitte Laden Sie die Seite neu');
-            $color='danger';
+            $color = 'danger';
         };
-        $this->addFlash($color,$text);
+        $this->addFlash($color, $text);
         return $this->redirectToRoute('dashboard');
     }
 
@@ -226,7 +220,6 @@ class ScheduleController extends JitsiAdminController
         if (!in_array($user, $scheduling->getRoom()->getUser()->toArray())) {
             $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));
             return $this->redirectToRoute('join_index_no_slug');
-
         }
         if (!$scheduling->getRoom()->getScheduleMeeting()) {
             $this->addFlash('danger', $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.'));

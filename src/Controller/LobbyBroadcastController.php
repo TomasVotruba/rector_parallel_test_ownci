@@ -19,7 +19,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LobbyBroadcastController extends JitsiAdminController
 {
-
     /**
      * @Route("/lobby/broadcast/{roomUid}", name="lobby_broadcast_websocket")
      */
@@ -30,9 +29,8 @@ class LobbyBroadcastController extends JitsiAdminController
     /**
      * @Route("/lobby/participants/{wUUid}", name="lobby_WaitingUser_websocket")
      */
-    public function waitinUserWebsocket( $wUUid): Response
+    public function waitinUserWebsocket($wUUid): Response
     {
         return new JsonResponse(array('error' => false));
     }
-
 }

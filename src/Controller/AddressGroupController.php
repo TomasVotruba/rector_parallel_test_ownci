@@ -14,7 +14,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AddressGroupController extends JitsiAdminController
 {
-
     /**
      * @Route("room/address/group/new", name="address_group_new")
      */
@@ -41,12 +40,12 @@ class AddressGroupController extends JitsiAdminController
                 $em = $this->doctrine->getManager();
                 $em->persist($addressgroup);
                 $em->flush();
-                $this->addFlash('success',$translator->trans('Kontaktgruppe erfolgreich angelegt'));
+                $this->addFlash('success', $translator->trans('Kontaktgruppe erfolgreich angelegt'));
                 return $this->redirectToRoute('dashboard');
             }
         } catch (\Exception $e) {
             $snack = $translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
-            $this->addFlash('danger',$snack);
+            $this->addFlash('danger', $snack);
             return $this->redirectToRoute('dashboard');
         }
 

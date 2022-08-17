@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\UserBase as BaseUser;
 use App\Repository\UserRepository;
 use App\Service\FormatName;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\UserBase as BaseUser;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -244,7 +244,6 @@ class User extends BaseUser
         $this->favorites = new ArrayCollection();
         $this->lobbyWaitungUsers = new ArrayCollection();
         $this->callerIds = new ArrayCollection();
-
     }
 
     public function getEmail(): ?string
@@ -862,7 +861,6 @@ class User extends BaseUser
     {
         $this->formatName = new FormatName();
         return $this->formatName->formatName($string, $this);
-
     }
 
     public function getUserIdentifier()
@@ -1011,6 +1009,4 @@ class User extends BaseUser
 
         return $this;
     }
-
-
 }

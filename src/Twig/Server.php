@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -14,8 +15,6 @@ use function GuzzleHttp\Psr7\str;
 
 class Server extends AbstractExtension
 {
-
-
     private $serverUserManagment;
     public function __construct(ServerUserManagment $serverUserManagment)
     {
@@ -24,7 +23,6 @@ class Server extends AbstractExtension
 
     public function getFunctions(): array
     {
-
         return [
             new TwigFunction('getServer', [$this, 'getServer']),
             new TwigFunction('getActualConference', [$this, 'getActualConference']),
@@ -34,12 +32,10 @@ class Server extends AbstractExtension
 
     public function getServer(User $user)
     {
-
         return $this->serverUserManagment->getServersFromUser($user);
     }
     public function getActualConference(\App\Entity\Server $server)
     {
-
         return $this->serverUserManagment->getActualConference($server);
     }
     public function getActualParticipants(\App\Entity\Server $server)

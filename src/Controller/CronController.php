@@ -7,8 +7,8 @@ use App\Service\ReminderService;
 use App\Service\UserService;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -48,13 +48,12 @@ class CronController extends JitsiAdminController
 
             $input = new ArrayInput([
                 'command' => 'cron:run',
-                '--script-name'=>'bin/console'
+                '--script-name' => 'bin/console'
             ]);
 
             // You can use NullOutput() if you don't need the output
             $output = new NullOutput();
             $application->run($input, $output);
-
         } catch (\Exception $exception) {
             return new JsonResponse(array('error' => true, 'message' => $exception->getMessage()));
         }

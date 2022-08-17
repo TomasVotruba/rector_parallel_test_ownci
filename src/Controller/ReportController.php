@@ -27,14 +27,14 @@ class ReportController extends AbstractController
      */
     public function create(?Rooms $room): Response
     {
-        if ($room->getModerator() !== $this->getUser()){
+        if ($room->getModerator() !== $this->getUser()) {
             throw  new NotFoundHttpException('Room not Found');
         }
-        $timeZone = $this->getUser()->getTimeZone()?$this->getUser()->getTimeZone():(new \DateTime())->getTimezone()->getName();
+        $timeZone = $this->getUser()->getTimeZone() ? $this->getUser()->getTimeZone() : (new \DateTime())->getTimezone()->getName();
         return $this->render('report/index.html.twig', [
-            'timezone'=>$timeZone,
+            'timezone' => $timeZone,
             'title' => $this->translator->trans('report.title'),
-            'room'=>$room
+            'room' => $room
         ]);
     }
 }

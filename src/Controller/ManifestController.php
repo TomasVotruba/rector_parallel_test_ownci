@@ -29,7 +29,6 @@ class ManifestController extends JitsiAdminController
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->themeService = $themeService;
         $this->createHttpsUrl = $createHttpsUrl;
-
     }
 
     /**
@@ -53,7 +52,7 @@ class ManifestController extends JitsiAdminController
             "icons" => array(
                 array(
                     "src" => $favicon,
-                    "type" =>'image/' . $ending,
+                    "type" => 'image/' . $ending,
                     "sizes" => "100x100"
                 ),
                 array(
@@ -71,5 +70,4 @@ class ManifestController extends JitsiAdminController
 
         return new JsonResponse($res);
     }
-
 }

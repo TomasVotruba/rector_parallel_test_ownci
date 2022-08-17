@@ -48,10 +48,10 @@ class ServerRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findServerWithEmailandUrl($serverUrl, $email,$apiKey): ?Server
+    public function findServerWithEmailandUrl($serverUrl, $email, $apiKey): ?Server
     {
         return $this->createQueryBuilder('s')
-            ->innerJoin('s.user','user')
+            ->innerJoin('s.user', 'user')
             ->andWhere('user.email = :email')
             ->setParameter('email', $email)
             ->andWhere('s.url = :url')
@@ -61,6 +61,6 @@ class ServerRepository extends ServiceEntityRepository
 
             ->getQuery()
             ->getOneOrNullResult()
-            ;
+        ;
     }
 }

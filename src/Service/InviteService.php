@@ -15,11 +15,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-
 class InviteService
 {
-
-
     private $em;
     private $translator;
     private $router;
@@ -53,5 +50,4 @@ class InviteService
         $this->em->flush();
         return $user;
     }
-
 }

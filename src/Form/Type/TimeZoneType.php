@@ -18,7 +18,6 @@ class TimeZoneType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
             ->add('timeZone', \Symfony\Component\Form\Extension\Core\Type\TimezoneType::class, ['required' => false, 'label' => 'label.timezone', 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.speichern', 'translation_domain' => 'form']);
@@ -29,6 +28,5 @@ class TimeZoneType extends AbstractType
         $resolver->setDefaults([
           'data_class' => User::class,
         ]);
-
     }
 }

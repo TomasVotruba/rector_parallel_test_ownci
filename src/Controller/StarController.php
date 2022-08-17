@@ -17,8 +17,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class StarController extends JitsiAdminController
 {
-
-
     /**
      * @Route("/star/submit", name="app_star", methods={"GET"})
      */
@@ -42,8 +40,6 @@ class StarController extends JitsiAdminController
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
             $res = new JsonResponse(array('error' => true));
-
-
         }
         $res = new JsonResponse(array('error' => false));
         $res->headers->set('Access-Control-Allow-Origin:', '*');

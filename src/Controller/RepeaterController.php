@@ -30,8 +30,6 @@ class RepeaterController extends JitsiAdminController
      */
     public function index(ParameterBagInterface $parameterBag, Request $request, RepeaterService $repeaterService): Response
     {
-
-
         $room = $this->doctrine->getRepository(Rooms::class)->find($request->get('room'));
         if ($room->getModerator() !== $this->getUser()) {
             throw new NotFoundHttpException('Not found');
@@ -75,7 +73,6 @@ class RepeaterController extends JitsiAdminController
                 $this->addFlash('success', $snack);
                 return $this->redirectToRoute('dashboard');
             }
-
         } catch (\Exception $exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             $this->addFlash('danger', $snack);
@@ -124,7 +121,6 @@ class RepeaterController extends JitsiAdminController
                 $this->addFlash('success', $snack);
                 return $this->redirectToRoute('dashboard');
             }
-
         } catch (\Exception $exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             $this->addFlash('danger', $snack);
@@ -140,7 +136,6 @@ class RepeaterController extends JitsiAdminController
      */
     public function removeRepeater(Request $request, RepeaterService $repeaterService, RemoveRoomService $removeRoomService): Response
     {
-
         $repeater = $this->doctrine->getRepository(Repeat::class)->find($request->get('repeat'));
         if ($repeater->getPrototyp()->getModerator() !== $this->getUser()) {
             throw new NotFoundHttpException('Not found');
@@ -148,10 +143,13 @@ class RepeaterController extends JitsiAdminController
         $repeaterService->sendEMail(
             $repeater,
             'email/repeaterRemoveUser.html.twig',
-            $this->translator->trans('Die Serienvideokonferenz {name} wurde gelöscht',
-                array('{name}' => $repeater->getPrototyp()->getName())),
+            $this->translator->trans(
+                'Die Serienvideokonferenz {name} wurde gelöscht',
+                array('{name}' => $repeater->getPrototyp()->getName())
+            ),
             array('room' => $repeater->getPrototyp()),
-            'CANCEL');
+            'CANCEL'
+        );
 
         $em = $this->doctrine->getManager();
 
@@ -223,7 +221,6 @@ class RepeaterController extends JitsiAdminController
                 $res = $this->generateUrl('dashboard', ['snack' => $snack, 'color' => 'success']);
                 return new JsonResponse(array('error' => false, 'redirectUrl' => $res));
             }
-
         } catch (\Exception $exception) {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             $this->addFlash('danger', $snack);
@@ -236,5 +233,4 @@ class RepeaterController extends JitsiAdminController
             'extra' => $extra
         ]);
     }
-
 }

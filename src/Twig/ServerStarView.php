@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -10,7 +11,6 @@ use function GuzzleHttp\Psr7\str;
 
 class ServerStarView extends AbstractExtension
 {
-
     public function getFunctions()
     {
         return [
@@ -22,12 +22,12 @@ class ServerStarView extends AbstractExtension
     {
         $star = 0;
         $count = 0;
-        foreach ($server->getStars() as $data){
+        foreach ($server->getStars() as $data) {
             $star += $data->getStar();
             $count++;
         }
-        if ($count>0){
-            $star = $star/$count;
+        if ($count > 0) {
+            $star = $star / $count;
         }
 
         return $star;

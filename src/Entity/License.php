@@ -13,7 +13,6 @@ use phpDocumentor\Reflection\Types\This;
  */
 class License
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -96,6 +95,4 @@ class License
 
         return $this;
     }
-
-
 }

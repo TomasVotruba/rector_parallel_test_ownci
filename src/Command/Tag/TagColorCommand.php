@@ -39,14 +39,14 @@ class TagColorCommand extends Command
         }
 
         $tag = $this->em->getRepository(Tag::class)->find($tagId);
-        if (!$tag){
+        if (!$tag) {
             $io->error('Tag does not exist');
             return  Command::FAILURE;
         }
-        $fontcolorQ = new Question('Enter the font color (ex #790619)', $tag->getColor()?$tag->getColor():'#790619');
+        $fontcolorQ = new Question('Enter the font color (ex #790619)', $tag->getColor() ? $tag->getColor() : '#790619');
         $tag->setColor($io->askQuestion($fontcolorQ));
 
-        $backgroundcolorQ = new Question('Enter the background color (ex #fdd8de)', $tag->getBackgroundColor()?$tag->getBackgroundColor():'#fdd8de');
+        $backgroundcolorQ = new Question('Enter the background color (ex #fdd8de)', $tag->getBackgroundColor() ? $tag->getBackgroundColor() : '#fdd8de');
         $tag->setBackgroundColor($io->askQuestion($backgroundcolorQ));
 
         $this->em->persist($tag);

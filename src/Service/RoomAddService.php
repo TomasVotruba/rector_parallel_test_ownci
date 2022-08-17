@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Repeat;
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
@@ -93,10 +92,8 @@ class RoomAddService
                         if (strlen($newMember) > 0) {
                             $falseEmail[] = $newMember;
                         }
-
                     }
                 }
-
             }
             $this->em->flush();
         }
@@ -105,7 +102,6 @@ class RoomAddService
         }
 
         return $falseEmail;
-
     }
 
     private function createUserParticipant($email, Rooms $room, ?User $user = null)
@@ -120,7 +116,6 @@ class RoomAddService
                 $user->addProtoypeRoom($prototype);
                 $this->removeRoomUser($user, $prototype);
             }
-
         } else {
             if (!in_array($user, $room->getUser()->toArray())) {
                 $user->addRoom($room);
@@ -144,8 +139,10 @@ class RoomAddService
             $this->repeaterService->sendEMail(
                 $rooms->getRepeater(),
                 'email/repeaterRemoveUser.html.twig',
-                $this->translator->trans('Die Serienvideokonferenz {name} wurde gelöscht',
-                    array('{name}' => $rooms->getRepeater()->getPrototyp()->getName())),
+                $this->translator->trans(
+                    'Die Serienvideokonferenz {name} wurde gelöscht',
+                    array('{name}' => $rooms->getRepeater()->getPrototyp()->getName())
+                ),
                 array('room' => $rooms->getRepeater()->getPrototyp()),
                 'CANCEL',
                 array($user)

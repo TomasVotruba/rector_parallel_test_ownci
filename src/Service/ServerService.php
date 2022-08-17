@@ -8,7 +8,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Rooms;
 use App\Entity\Server;
 use App\Entity\User;
@@ -19,7 +18,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
-
 
 class ServerService
 {
@@ -38,7 +36,7 @@ class ServerService
         $this->translator = $translator;
     }
 
-    function addPermission(Server $server, User $user)
+    public function addPermission(Server $server, User $user)
     {
         $content = $this->twig->render('email/serverPermission.html.twig', ['user' => $user, 'server' => $server]);
         $subject = $this->translator->trans('[Serverorganisation] Sie wurden zu einem Jitsi-Meet-Server hinzugefügt');
@@ -46,7 +44,7 @@ class ServerService
 
         return true;
     }
-    function makeSlug($urlString)
+    public function makeSlug($urlString)
     {
         $counter = 0;
         $slug = UtilsHelper::slugify($urlString);
@@ -61,6 +59,5 @@ class ServerService
                 $tmp = $slug . '-' . $counter;
             }
         }
-
     }
 }

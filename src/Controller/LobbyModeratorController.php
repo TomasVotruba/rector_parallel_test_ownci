@@ -10,9 +10,9 @@ use App\Service\caller\CallerSessionService;
 use App\Service\CheckLobbyPermissionService;
 use App\Service\Lobby\DirectSendService;
 use App\Service\Lobby\LobbyUtils;
-use App\Service\RoomService;
 use App\Service\Lobby\ToModeratorWebsocketService;
 use App\Service\Lobby\ToParticipantWebsocketService;
+use App\Service\RoomService;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 
@@ -27,23 +27,22 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LobbyModeratorController extends JitsiAdminController
 {
-
     private $toModerator;
     private $toParticipant;
     private $directSend;
     private CheckLobbyPermissionService $checkLobbyPermissionService;
 
-    public function __construct(ManagerRegistry               $managerRegistry,
-                                TranslatorInterface           $translator,
-                                LoggerInterface               $logger,
-                                ParameterBagInterface         $parameterBag,
-                                DirectSendService             $directSendService,
-                                ToParticipantWebsocketService $toParticipantWebsocketService,
-                                ToModeratorWebsocketService   $toModeratorWebsocketService,
-                                RequestStack                  $requestStack,
-                                CheckLobbyPermissionService   $checkLobbyPermissionService
-    )
-    {
+    public function __construct(
+        ManagerRegistry               $managerRegistry,
+        TranslatorInterface           $translator,
+        LoggerInterface               $logger,
+        ParameterBagInterface         $parameterBag,
+        DirectSendService             $directSendService,
+        ToParticipantWebsocketService $toParticipantWebsocketService,
+        ToModeratorWebsocketService   $toModeratorWebsocketService,
+        RequestStack                  $requestStack,
+        CheckLobbyPermissionService   $checkLobbyPermissionService
+    ) {
         parent::__construct($managerRegistry, $translator, $logger, $parameterBag);
         $this->toModerator = $toModeratorWebsocketService;
         $this->toParticipant = $toParticipantWebsocketService;
@@ -71,7 +70,6 @@ class LobbyModeratorController extends JitsiAdminController
         $this->logger->log('error', 'User trys to enter Lobby which he is no moderator of', array('room' => $room->getId(), 'user' => $this->getUser()->getUserIdentifier()));
         $this->addFlash('danger', $this->translator->trans('error.noPermission'));
         return $this->redirectToRoute('dashboard');
-
     }
 
     /**

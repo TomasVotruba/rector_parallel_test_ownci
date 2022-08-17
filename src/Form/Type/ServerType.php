@@ -8,24 +8,23 @@
 
 namespace App\Form\Type;
 
-
 use App\Entity\AuditTomAbteilung;
-use App\Entity\Server;
-
 use App\Entity\KeycloakGroupsToServers;
+
+use App\Entity\Server;
 
 use League\CommonMark\Inline\Element\Text;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -34,27 +33,29 @@ class ServerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
             ->add('url', TextType::class, ['required' => true, 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
             ->add('serverName', TextType::class, ['required' => true, 'label' => 'label.serverName', 'translation_domain' => 'form', 'help' => 'help.serverName'])
             ->add('appId', TextType::class, ['required' => false, 'label' => 'label.appId', 'translation_domain' => 'form'])
             ->add('appSecret', TextType::class, ['required' => false, 'label' => 'label.appSecret', 'translation_domain' => 'form'])
-            ->add('corsHeader', CheckboxType::class, ['required' => false, 'label' => 'label.corsHeader','help'=>'help.corsHeader', 'translation_domain' => 'form'])
-            ->add('keycloakGroups', CollectionType::class,
+            ->add('corsHeader', CheckboxType::class, ['required' => false, 'label' => 'label.corsHeader', 'help' => 'help.corsHeader', 'translation_domain' => 'form'])
+            ->add(
+                'keycloakGroups',
+                CollectionType::class,
                 ['entry_type' => KeycloakGroupsToServersType::class,
-                'entry_options' => ['label' => 'false',],
+                'entry_options' => ['label' => 'false', ],
                 'allow_add' => true,
-                'allow_delete' =>true,
+                'allow_delete' => true,
                 'by_reference' => false,
                 'label' => false,
-                'translation_domain' => 'form',])
+                'translation_domain' => 'form', ]
+            )
 
             ->add('url', TextType::class, ['required' => true, 'label' => 'lable.serverUrl', 'translation_domain' => 'form', 'help' => 'help.serverUrl'])
             ->add('licenseKey', TextType::class, ['required' => false, 'label' => 'label.serverLicenseKey', 'translation_domain' => 'form'])
-            ->add('featureEnableByJWT', CheckboxType::class, ['required' => false, 'label' => 'label.featureEnalbeByJwt','help'=>'help.featureEnalbeByJwt', 'translation_domain' => 'form'])
+            ->add('featureEnableByJWT', CheckboxType::class, ['required' => false, 'label' => 'label.featureEnalbeByJwt', 'help' => 'help.featureEnalbeByJwt', 'translation_domain' => 'form'])
             ->add('jwtModeratorPosition', ChoiceType::class, [
-                'required'=>true,
+                'required' => true,
                 'label' => 'label.jwtModeratorPosition',
                 'translation_domain' => 'form',
                 'choices' => [
@@ -71,6 +72,5 @@ class ServerType extends AbstractType
         $resolver->setDefaults([
           'data_class' => Server::class,
         ]);
-
     }
 }

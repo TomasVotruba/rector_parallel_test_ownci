@@ -28,6 +28,6 @@ class Nl2liExtension extends AbstractExtension
     public function nl2li($value)
     {
         // Check for http at beginning of string
-        return '<li>'.str_replace( "\n", "</li><li>", $value ).'</li>';
+        return '<li>' . str_replace("\n", "</li><li>", $value) . '</li>';
     }
 }

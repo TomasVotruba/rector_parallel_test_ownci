@@ -16,7 +16,7 @@ class MigrationAddUsernameSameEmailCommand extends Command
     protected static $defaultName = 'app:migration:addUsernameSameEmail';
     protected static $defaultDescription = 'This command finds empts username and sets the user = email';
     protected $em;
-    public function __construct( EntityManagerInterface $entityManager, $name = null)
+    public function __construct(EntityManagerInterface $entityManager, $name = null)
     {
         $this->em = $entityManager;
         parent::__construct($name);
@@ -29,8 +29,8 @@ class MigrationAddUsernameSameEmailCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $user = $this->em->getRepository(User::class)->findBy(array('username'=>null));
-        foreach ($user as $data){
+        $user = $this->em->getRepository(User::class)->findBy(array('username' => null));
+        foreach ($user as $data) {
             $data->setUsername($data->getEmail());
             $this->em->persist($data);
         }

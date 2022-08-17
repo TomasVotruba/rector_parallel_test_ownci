@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -25,24 +26,20 @@ use function GuzzleHttp\Psr7\str;
 
 class SipCallIn extends AbstractExtension
 {
-
-
     public function getFunctions(): array
     {
-
         return [
             new TwigFunction('sipPinFromRoomAndUser', [$this, 'sipPinFromRoomAndUser'])
         ];
     }
 
-    public function sipPinFromRoomAndUser(Rooms $rooms,User $user)
+    public function sipPinFromRoomAndUser(Rooms $rooms, User $user)
     {
-        foreach ($user->getCallerIds() as $data){
-            if ($data->getRoom() === $rooms){
+        foreach ($user->getCallerIds() as $data) {
+            if ($data->getRoom() === $rooms) {
                 return $data;
             }
         }
         return null;
     }
-
 }

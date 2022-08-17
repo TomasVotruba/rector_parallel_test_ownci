@@ -32,7 +32,7 @@ class Tag
     /**
      * @ORM\Column(type="boolean")
      */
-    private $disabled=false;
+    private $disabled = false;
 
     /**
      * @ORM\Column(type="integer", nullable=true)

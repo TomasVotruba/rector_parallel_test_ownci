@@ -31,25 +31,25 @@ class CallerPinService
     {
         $callerRoom = $this->em->getRepository(CallerRoom::class)->findOneBy(array('callerId' => $roomId));
         if (!$callerRoom) {
-            $this->loggger->debug('Room not found',array('roomId'=>$roomId,'callerId'=>$callerId,'pin'=>$pin));
+            $this->loggger->debug('Room not found', array('roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin));
             return null;
         }
         $room = $callerRoom->getRoom();
         $callInUser = $this->em->getRepository(CallerId::class)->findByRoomAndPin($room, $pin);
         if (!$callInUser) {
-            $this->loggger->debug('PIN not found for the room',array('roomId'=>$roomId,'callerId'=>$callerId,'pin'=>$pin));
+            $this->loggger->debug('PIN not found for the room', array('roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin));
             return null;
         }
         if ($callInUser->getCallerSession()) {
-            $this->loggger->info('The Session is already used. Only one Session per PIN is allowed',array('roomId'=>$roomId,'callerId'=>$callerId,'pin'=>$pin));
+            $this->loggger->info('The Session is already used. Only one Session per PIN is allowed', array('roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin));
             return null;
         }
         $lobbyUser = $this->createLobbyUserService->createNewLobbyUser($callInUser->getUser(), $callInUser->getRoom(), 'c');
 
         $this->em->getRepository(CallerSession::class)->findOneBy(array('lobbyWaitingUser' => $lobbyUser));
-        $this->loggger->debug('We create a session for the caller',array('roomId'=>$roomId,'callerId'=>$callerId,'pin'=>$pin));
+        $this->loggger->debug('We create a session for the caller', array('roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin));
         $session = new CallerSession();
-        $session->setSessionId(md5($roomId.$pin.uniqid()))
+        $session->setSessionId(md5($roomId . $pin . uniqid()))
             ->setCreatedAt(new \DateTime())
             ->setAuthOk(false)
             ->setLobbyWaitingUser($lobbyUser)
@@ -62,28 +62,27 @@ class CallerPinService
         $lobbyUser->setCallerSession($session);
         $this->em->persist($lobbyUser);
         $this->em->flush();
-        $this->loggger->debug('Session was successfully build',array('roomId'=>$roomId,'callerId'=>$callerId,'pin'=>$pin));
+        $this->loggger->debug('Session was successfully build', array('roomId' => $roomId, 'callerId' => $callerId, 'pin' => $pin));
         return $session;
     }
-    public function verifyCallerID(CallerSession $callerSession):bool{
+    public function verifyCallerID(CallerSession $callerSession): bool
+    {
         $callerID = $callerSession->getCallerId();
         try {
-             $phoneNumber = $callerSession->getCaller()->getUser()->getSpezialProperties()[$this->parameterBag->get('SIP_CALLER_VERIVY_SPEZIAL_FIELD')];
-        }catch (\Exception $exception){
+            $phoneNumber = $callerSession->getCaller()->getUser()->getSpezialProperties()[$this->parameterBag->get('SIP_CALLER_VERIVY_SPEZIAL_FIELD')];
+        } catch (\Exception $exception) {
             return false;
         }
-        if ($this->clean($callerID) === $this->clean($phoneNumber)){
+        if ($this->clean($callerID) === $this->clean($phoneNumber)) {
             return true;
         }
         return false;
-
-
     }
-    public function clean($string) {
+    public function clean($string)
+    {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
 
-        $res =  preg_replace('/[^0-9]/', '', $string); // Removes special chars.
+        $res = preg_replace('/[^0-9]/', '', $string); // Removes special chars.
         return $res;
     }
-
 }

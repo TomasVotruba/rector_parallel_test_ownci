@@ -8,7 +8,6 @@
 
 namespace App\Form\Type;
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -20,9 +19,8 @@ class NewPermissionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
-           ->add('member',TextareaType::class,['required' => false, 'label' => 'label.organisatorhinzufuegen', 'help'=> 'help.emailTextfeld','translation_domain' => 'form'])
+           ->add('member', TextareaType::class, ['required' => false, 'label' => 'label.organisatorhinzufuegen', 'help' => 'help.emailTextfeld', 'translation_domain' => 'form'])
             ->add('submit', SubmitType::class, ['attr' => array('class' => 'btn btn-outline-primary'), 'label' => 'label.organisatorhinzufuegen', 'translation_domain' => 'form']);
     }
 
@@ -31,6 +29,5 @@ class NewPermissionType extends AbstractType
         $resolver->setDefaults([
 
         ]);
-
     }
 }

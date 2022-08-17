@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -23,8 +24,6 @@ use function GuzzleHttp\Psr7\str;
 
 class Time extends AbstractExtension
 {
-
-
     private $themeService;
     public function __construct(ThemeService $themeService)
     {
@@ -33,7 +32,6 @@ class Time extends AbstractExtension
 
     public function getFunctions(): array
     {
-
         return [
             new TwigFunction('getTime', [$this, 'getTime']),
         ];
@@ -41,7 +39,7 @@ class Time extends AbstractExtension
 
     public function getTime(User $user)
     {
-        $now = new \DateTime('now',new \DateTimeZone($user->getTimeZone()));
+        $now = new \DateTime('now', new \DateTimeZone($user->getTimeZone()));
         return $now;
     }
 }

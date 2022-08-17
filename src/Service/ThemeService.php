@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Rooms;
 use Doctrine\ORM\EntityManagerInterface;
 use H2Entwicklung\Signature\CheckSignature;
@@ -82,15 +81,12 @@ class ThemeService
                 return false;
             });
             return $value;
-
         } catch (\Exception $exception) {
-
         }
         return false;
     }
 
-    public
-    function getThemeProperty($property)
+    public function getThemeProperty($property)
     {
         $theme = $this->getTheme();
         if ($theme) {

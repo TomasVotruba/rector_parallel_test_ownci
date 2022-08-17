@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\Subscriber;
@@ -22,7 +21,7 @@ class SubcriptionService
     private $notifier;
     private $userService;
     private $userCreationService;
-    public function __construct(UserService $userService, NotificationService $notificationService, EntityManagerInterface $entityManager, Environment $environment, TranslatorInterface $translator,UserCreatorService $userCreationService)
+    public function __construct(UserService $userService, NotificationService $notificationService, EntityManagerInterface $entityManager, Environment $environment, TranslatorInterface $translator, UserCreatorService $userCreationService)
     {
         $this->em = $entityManager;
         $this->twig = $environment;
@@ -61,7 +60,7 @@ class SubcriptionService
         $user = $this->em->getRepository(User::class)->findOneBy(array('email' => $userData['email']));
         //create a new User from the email entered
         if (!$user) {
-            $user = $this->userCreationService->createUser($userData['email'],$userData['email'],$userData['firstName'],$userData['lastName']);
+            $user = $this->userCreationService->createUser($userData['email'], $userData['email'], $userData['firstName'], $userData['lastName']);
         }
 
         $subscriber = $this->em->getRepository(Subscriber::class)->findOneBy(array('room' => $rooms, 'user' => $user));
@@ -125,15 +124,13 @@ class SubcriptionService
                 $this->em->remove($subscriber);
                 $this->em->flush();
             } else {
-                $this->createUserRoom($subscriber->getUser(),$subscriber->getRoom());
+                $this->createUserRoom($subscriber->getUser(), $subscriber->getRoom());
                 $this->em->remove($subscriber);
                 $this->em->flush();
             }
-
         } catch (\Exception $exception) {
             $res['message'] = $this->translator->trans('Fehler, Bitte klicken Sie den link erneut an.');
             $res['title'] = $this->translator->trans('Fehler');
-
         }
 
         return $res;
@@ -145,7 +142,7 @@ class SubcriptionService
      * @return array
      * creates a new subscriber element
      */
-    function createNewSubscriber(User $user, Rooms $rooms)
+    public function createNewSubscriber(User $user, Rooms $rooms)
     {
         $subscriber = new Subscriber();
         $subscriber->setUser($user)->setRoom($rooms)->setUid(md5(uniqid()));
@@ -164,7 +161,7 @@ class SubcriptionService
      * @return array
      * creates a new Waiinglist element and sends the email with the waiting list to the subscriber
      */
-    function createNewWaitinglist(User $user, Rooms $rooms)
+    public function createNewWaitinglist(User $user, Rooms $rooms)
     {
         $waitingList = new Waitinglist();
         $waitingList->setUser($user)->setRoom($rooms)->setCreatedAt(new \DateTime());
@@ -173,7 +170,7 @@ class SubcriptionService
         $res['text'] = $this->translator->trans('Vielen Dank für die Anmeldung. Bitte bestätigen Sie Ihre Emailadresse in der Email, die wir ihnen zugeschickt haben.');
         $res['color'] = 'success';
         $res['error'] = false;
-        $this->userService->addWaitinglist($user,$rooms);
+        $this->userService->addWaitinglist($user, $rooms);
         return $res;
     }
 
@@ -182,7 +179,8 @@ class SubcriptionService
      * @param Rooms $rooms
      * creates a new roomUser element and sends the email with the room infos  to the subscriber
      */
-    function createUserRoom(User $user, Rooms $rooms){
+    public function createUserRoom(User $user, Rooms $rooms)
+    {
         $user->addRoom($rooms);
         $this->em->persist($user);
         $this->em->flush();

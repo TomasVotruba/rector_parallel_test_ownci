@@ -17,7 +17,6 @@ use Psr\Log\LoggerInterface;
  */
 final class Version20220225112622 extends AbstractMigration
 {
-
     public function getDescription(): string
     {
         return '';
@@ -25,7 +24,6 @@ final class Version20220225112622 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-
         if ($this->connection->getDatabasePlatform()->getName() == 'postgresql') {
             if (!$schema->hasTable('fos_user')) {
                 // this up() migration is auto-generated, please modify it to your needs
@@ -295,7 +293,5 @@ final class Version20220225112622 extends AbstractMigration
 //                )
 //            );
 //        }
-
     }
-
 }

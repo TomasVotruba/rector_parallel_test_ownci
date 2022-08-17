@@ -16,7 +16,6 @@ class FavoriteService
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->em = $entityManager;
-
     }
 
     public function changeFavorite(User $user, Rooms $room)
@@ -29,16 +28,17 @@ class FavoriteService
             }
             $this->em->persist($user);
             $this->em->flush();
-        }else{
+        } else {
             return false;
         }
         return true;
     }
-    public function cleanFavorites(User $user){
+    public function cleanFavorites(User $user)
+    {
         $favs = $user->getFavorites();
         $now = (new \DateTime())->setTimezone(new \DateTimeZone('utc'));
-        foreach ($favs as $data){
-            if($data->getPersistantRoom() !== true && $data->getScheduleMeeting() !== true && $data->getEndDateUtc() < $now ){
+        foreach ($favs as $data) {
+            if ($data->getPersistantRoom() !== true && $data->getScheduleMeeting() !== true && $data->getEndDateUtc() < $now) {
                 $user->removeFavorite($data);
             }
         }
@@ -46,13 +46,14 @@ class FavoriteService
         $this->em->flush();
     }
 
-    public function sendMe(){
+    public function sendMe()
+    {
         try {
             $browser = new HttpBrowser(HttpClient::create());
             $browser->followMetaRefresh(true);
             $link = $browser->request('GET', 'https://h2-invent.github.io/jitsi-admin/');
             $res = $link->text();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
         }
     }
 }

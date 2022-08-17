@@ -23,7 +23,6 @@ final class Version20210319115742 extends AbstractMigration
 
             // this up() migration is auto-generated, please modify it to your needs
             $this->addSql('ALTER TABLE rooms ADD public TINYINT(1) DEFAULT NULL');
-
         }
     }
 

@@ -24,14 +24,14 @@ class TimeZoneController extends JitsiAdminController
         $form = $this->createForm(TimeZoneType::class, $user, ['action' => $this->generateUrl('time_zone_save')]);
         return $this->render('time_zone/index.html.twig', array(
             'form' => $form->createView(),
-            'title'=> $translator->trans('Zeitzone einstellen')
+            'title' => $translator->trans('Zeitzone einstellen')
         ));
     }
 
     /**
      * @Route("/room/timezone/save", name="time_zone_save")
      */
-    public function new(Request $request, TranslatorInterface $translator,LoggerInterface $logger): Response
+    public function new(Request $request, TranslatorInterface $translator, LoggerInterface $logger): Response
     {
         $user = $this->getUser();
         $form = $this->createForm(TimeZoneType::class, $user, ['action' => $this->generateUrl('time_zone_save')]);
@@ -43,12 +43,12 @@ class TimeZoneController extends JitsiAdminController
                 $em->persist($user);
                 $em->flush();
             }
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $logger->error($exception->getMessage());
-            $this->addFlash('danger',$translator->trans('Fehler'));
+            $this->addFlash('danger', $translator->trans('Fehler'));
             return $this->redirectToRoute('dashboard');
         }
-        $this->addFlash('success',$translator->trans('Zeitzone erfolgreich geändert auf: {timeZone}',array('{timeZone}'=>$user->getTimeZone())));
+        $this->addFlash('success', $translator->trans('Zeitzone erfolgreich geändert auf: {timeZone}', array('{timeZone}' => $user->getTimeZone())));
         return $this->redirectToRoute('dashboard');
     }
 }

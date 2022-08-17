@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Rooms;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,25 +45,22 @@ class JoinService
     {
         $room = $this->em->getRepository(Rooms::class)->findOneBy(['uid' => $search['uid']]);
         $user = $this->em->getRepository(User::class)->findOneBy(['email' => $search['email']]);
-        if ($room && in_array($user,$room->getUser()->toArray())) {
-
+        if ($room && in_array($user, $room->getUser()->toArray())) {
             if ($appAllowed && $appKlicked) {
                 $type = 'a';
             } elseif ($browerAllowed && $browserKlicked) {
                 $type = 'b';
             }
             $start = null;
-            $now =  new \DateTime('now', new \DateTimeZone('utc'));
+            $now = new \DateTime('now', new \DateTimeZone('utc'));
             $endDate = null;
-            if(!$room->getPersistantRoom()){
-
+            if (!$room->getPersistantRoom()) {
                 $start = (clone $room->getStartUtc())->modify('-30min');
                 $endDate = clone $room->getEndDateUtc();
 
-                $startPrint = $room->getTimeZone()?clone ($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getStart();
+                $startPrint = $room->getTimeZone() ? clone ($room->getStartUtc())->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getStart();
                 $startPrint->modify('-30min');
-                $endPrint = $room->getTimeZone()?$room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())):$room->getEnddate();
-
+                $endPrint = $room->getTimeZone() ? $room->getEndDateUtc()->setTimeZone(new \DateTimeZone($room->getTimeZone())) : $room->getEnddate();
             }
 
             if (
@@ -73,19 +69,19 @@ class JoinService
                 || $room->getPersistantRoom()
                 || $user->getKeycloakId()
             ) {
-                if($user->getKeycloakId()){
-                    return new RedirectResponse($this->urlGenerator->generate('room_join',array('room'=>$room->getId(),'t'=>$type)));
-                }else{
-                    if ($this->session->getCurrentRequest()){
-                        $this->session->getCurrentRequest()->getSession()->set('userId',$user->getId());
+                if ($user->getKeycloakId()) {
+                    return new RedirectResponse($this->urlGenerator->generate('room_join', array('room' => $room->getId(), 't' => $type)));
+                } else {
+                    if ($this->session->getCurrentRequest()) {
+                        $this->session->getCurrentRequest()->getSession()->set('userId', $user->getId());
                     }
 
-                    return $this->startService->startMeeting($room, $user, $type,$search['name']);
+                    return $this->startService->startMeeting($room, $user, $type, $search['name']);
                 }
-
             } else {
                 try {
-                    $snack = $this->translator->trans('Der Beitritt ist nur von {from} bis {to} möglich',
+                    $snack = $this->translator->trans(
+                        'Der Beitritt ist nur von {from} bis {to} möglich',
                         array(
                             '{from}' => $startPrint->format('d.m.Y H:i T'),
                             '{to}' => $endPrint->format('d.m.Y H:i T')
@@ -93,10 +89,9 @@ class JoinService
                     );
                     $color = 'danger';
                 } catch (\Exception $exception) {
-
                 }
             }
-        }else{
+        } else {
             $snack = $this->translator->trans('Fehler, Bitte kontrollieren Sie ihre Daten.');
             $color = 'danger';
         }
@@ -110,7 +105,7 @@ class JoinService
      * @return boolean
      * @author Andreas Holzmann
      */
-    function onlyWithUserAccount(?Rooms $room)
+    public function onlyWithUserAccount(?Rooms $room)
     {
         if ($room) {
             return $this->parameterBag->get('laF_onlyRegisteredParticipents') == 1 || //only registered Users globally set
@@ -125,7 +120,7 @@ class JoinService
      * @return boolean
      * @author Andreas Holzmann
      */
-    function userAccountLogin(?Rooms $room, ?User $user)
+    public function userAccountLogin(?Rooms $room, ?User $user)
     {
         if ($room) {
             return $user && $user->getKeycloakId() !== null; // Registered Users have to login before they can join the conference

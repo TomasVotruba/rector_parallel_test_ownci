@@ -24,8 +24,6 @@ use function GuzzleHttp\default_user_agent;
 
 class APIRoomController extends JitsiAdminController
 {
-
-
     /**
      * @Route("/api/v1/room", name="api_room_create",methods={"POST"})
      */
@@ -38,14 +36,14 @@ class APIRoomController extends JitsiAdminController
         $user = $keycloakService->getUSer($email, $request->get('keycloakId'));
         // if the user does not exist then we make a new one with the Email
         if (!$user) {
-            $user = $userCreatorService->createUser($email, $email, '','');
+            $user = $userCreatorService->createUser($email, $email, '', '');
         }
         $serverUrl = $request->get('server');
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
         $server = $this->doctrine->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $email, $apiKey);
-        if (!$server || !$licenseService->verify($server) ) {
+        if (!$server || !$licenseService->verify($server)) {
             return new JsonResponse(array('error' => true, 'text' => 'No Server found'));
         }
         //we create the start Datetime
@@ -59,8 +57,8 @@ class APIRoomController extends JitsiAdminController
         // We initialize the Room with the data;
         try {
             $room = $roomService->createRoom($user, $server, $start, $duration, $name);
-        }catch (\Exception $exception){
-            return new JsonResponse(array('error'=>true));
+        } catch (\Exception $exception) {
+            return new JsonResponse(array('error' => true));
         }
 
         return new JsonResponse(array('error' => false, 'uid' => $room->getUidReal(), 'text' => 'Meeting erfolgreich angelegt'));
@@ -71,7 +69,6 @@ class APIRoomController extends JitsiAdminController
      */
     public function removeRoom(Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
     {
-
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
 
         if (!$room || $room->getModerator() === null) {
@@ -80,7 +77,7 @@ class APIRoomController extends JitsiAdminController
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
-        if($room->getServer()->getApiKey() !== $apiKey){
+        if ($room->getServer()->getApiKey() !== $apiKey) {
             return new JsonResponse(array('error' => true, 'text' => 'No Server found'));
         }
         $roomService->deleteRoom($room);
@@ -92,7 +89,6 @@ class APIRoomController extends JitsiAdminController
      */
     public function editRoom(LicenseService  $licenseService, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService): Response
     {
-
         $room = $this->doctrine->getRepository(Rooms::class)->findOneBy(array('uidReal' => $request->get('uid')));
 
         if (!$room || $room->getModerator() === null) {
@@ -108,9 +104,9 @@ class APIRoomController extends JitsiAdminController
         $apiKey = $request->headers->get('Authorization');
         // skip beyond "Bearer "
         $apiKey = substr($apiKey, 7);
-        $server = $this->doctrine->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $room->getModerator()->getEmail(),$apiKey);
+        $server = $this->doctrine->getRepository(Server::class)->findServerWithEmailandUrl($serverUrl, $room->getModerator()->getEmail(), $apiKey);
         //If there is no server, then we take the default server which is accessabl for all jitsi admin users
-        if (!$server || !$licenseService->verify($server) ) {
+        if (!$server || !$licenseService->verify($server)) {
             return new JsonResponse(array('error' => true, 'text' => 'No Server found'));
         }
         // We initialize the Room with the data;
@@ -123,7 +119,6 @@ class APIRoomController extends JitsiAdminController
      */
     public function getServers(ServerUserManagment  $serverUserManagment, Request $request, ParameterBagInterface $parameterBag, RoomService $roomService, KeycloakService $keycloakService): Response
     {
-
         $user = $keycloakService->getUSer($request->get('email'), $request->get('keycloakId'));
         $server = $serverUserManagment->getServersFromUser($user);
 
@@ -137,5 +132,4 @@ class APIRoomController extends JitsiAdminController
         $res['error'] = false;
         return new JsonResponse($res);
     }
-
 }

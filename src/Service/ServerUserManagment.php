@@ -3,7 +3,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\EmailDomainsToServers;
 use App\Entity\KeycloakGroupsToServers;
 use App\Entity\Rooms;
@@ -16,7 +15,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ServerUserManagment
 {
-
     private $em;
     private $parameter;
     private ThemeService $themeService;
@@ -63,7 +61,6 @@ class ServerUserManagment
                 }
             }
         } catch (\Exception $exception) {
-
         }
 
 
@@ -76,19 +73,19 @@ class ServerUserManagment
         try {
             if ($this->themeService->getTheme()) {
                 $sTmp = $this->themeService->getTheme()['showServer'];
-                if (sizeof($sTmp) === 0){
+                if (sizeof($sTmp) === 0) {
                     return $servers;
                 }
                 foreach ($user->getServers() as $data) {
-                    if (!in_array($data->getId(), $sTmp))
+                    if (!in_array($data->getId(), $sTmp)) {
                         $sTmp[] = $data->getId();
+                    }
                 }
                 $serTmp = array();
                 foreach ($servers as $data) {
                     if (in_array($data->getId(), $sTmp)) {
                         $serTmp[] = $data;
                     }
-
                 }
                 $servers = $serTmp;
                 $serTmp = array();
@@ -103,16 +100,18 @@ class ServerUserManagment
                     $servers = $serTmp;
                 }
             }
-        }catch (\Exception $exception){}
+        } catch (\Exception $exception) {
+        }
 
         return $servers;
-
     }
-    function getActualConference(Server $server){
+    public function getActualConference(Server $server)
+    {
         $actualConf = $this->em->getRepository(Rooms::class)->findActualConferenceForServerByStatus($server);
         return $actualConf;
     }
-    function getActualParticipantsFromServer(Server $server){
+    public function getActualParticipantsFromServer(Server $server)
+    {
         $actualPart = $this->em->getRepository(RoomStatusParticipant::class)->findActualParticipantsByServer($server);
         return $actualPart;
     }

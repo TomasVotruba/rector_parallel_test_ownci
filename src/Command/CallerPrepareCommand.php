@@ -20,16 +20,15 @@ class CallerPrepareCommand extends Command
     public function __construct(CallerPrepareService $callerPrepareService, EntityManagerInterface $entityManager, string $name = null)
     {
         parent::__construct($name);
-        $this->em= $entityManager;
+        $this->em = $entityManager;
         $this->callerPrepareService = $callerPrepareService;
     }
 
     protected function configure(): void
     {
-
     }
 
-    protected function execute( InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $this->callerPrepareService->prepareCallerId();

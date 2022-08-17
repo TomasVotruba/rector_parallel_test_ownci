@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -35,7 +36,6 @@ class Name extends AbstractExtension
 
     public function nameOfUser(User $user)
     {
-
         return new Markup(
             str_replace(
                 array('<script>', '</script>'),

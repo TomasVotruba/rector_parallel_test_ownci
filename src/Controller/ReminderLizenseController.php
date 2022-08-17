@@ -21,7 +21,7 @@ class ReminderLizenseController extends JitsiAdminController
     /**
      * @Route("/reminder/lizense", name="reminder_lizense")
      */
-    public function index(LoggerInterface $logger, Request $request, MailerService $mailerService,ParameterBagInterface $parameterBag): Response
+    public function index(LoggerInterface $logger, Request $request, MailerService $mailerService, ParameterBagInterface $parameterBag): Response
     {
         if ($request->get('token') !== $parameterBag->get('cronToken')) {
             $message = ['error' => true, 'hinweis' => 'Token fehlerhaft', 'token' => $request->get('token'), 'ip' => $request->getClientIp()];
@@ -43,22 +43,21 @@ class ReminderLizenseController extends JitsiAdminController
         try {
             foreach ($license as $data) {
                 $server = $this->doctrine->getRepository(Server::class)->findOneBy(array('licenseKey' => $data->getLicenseKey()));
-                if($server){
+                if ($server) {
                     $mailerService->sendEmail(
                         $server->getAdministrator(),
                         $this->translator->trans('Ihre Jitsi-Admin-Enterprise Lizenz läuft bald aus'),
                         $this->renderView('email/licenseReminder.html.twig', array('server' => $server, 'license' => $data)),
-                        $server);
+                        $server
+                    );
                     $counter++;
                 }
-
-
             }
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $error = true;
             $message = $e->getMessage();
         }
 
-        return new JsonResponse(array('error' => $error,'message'=>$message, 'amount' => $counter));
+        return new JsonResponse(array('error' => $error, 'message' => $message, 'amount' => $counter));
     }
 }

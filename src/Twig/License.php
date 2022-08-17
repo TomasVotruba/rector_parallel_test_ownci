@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -17,14 +18,11 @@ use function GuzzleHttp\Psr7\str;
 
 class License extends AbstractExtension
 {
-
-
     private $licenseService;
 
     public function __construct(LicenseService $licenseService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em)
     {
         $this->licenseService = $licenseService;
-
     }
 
     public function getFilters()
@@ -35,12 +33,11 @@ class License extends AbstractExtension
         ];
     }
 
-    public function validateLicense(Server $server):bool
+    public function validateLicense(Server $server): bool
     {
-         return $this->licenseService->verify($server);
-
+        return $this->licenseService->verify($server);
     }
-    public function validateUntilLicense(Server $server):\DateTime
+    public function validateUntilLicense(Server $server): \DateTime
     {
         return $this->licenseService->validUntil($server);
     }

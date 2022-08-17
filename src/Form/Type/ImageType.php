@@ -21,7 +21,6 @@ class ImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
             ->add('documentFile', VichImageType::class, [
                 'required' => false,
@@ -37,6 +36,5 @@ class ImageType extends AbstractType
         $resolver->setDefaults([
           'data_class' => Documents::class,
         ]);
-
     }
 }

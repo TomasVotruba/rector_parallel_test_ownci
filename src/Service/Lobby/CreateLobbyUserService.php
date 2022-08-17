@@ -15,14 +15,14 @@ class CreateLobbyUserService
     private $toModerator;
     private $parameterBag;
 
-    public function __construct(EntityManagerInterface $entityManager,  ToModeratorWebsocketService $toModeratorWebsocketService, ParameterBagInterface $parameterBag)
+    public function __construct(EntityManagerInterface $entityManager, ToModeratorWebsocketService $toModeratorWebsocketService, ParameterBagInterface $parameterBag)
     {
         $this->toModerator = $toModeratorWebsocketService;
         $this->parameterBag = $parameterBag;
         $this->em = $entityManager;
     }
 
-    public function createNewLobbyUser(User $user, Rooms $room, $type):LobbyWaitungUser
+    public function createNewLobbyUser(User $user, Rooms $room, $type): LobbyWaitungUser
     {
         $lobbyUser = $this->em->getRepository(LobbyWaitungUser::class)->findOneBy(array('user' => $user, 'room' => $room));
         if (!$lobbyUser) {

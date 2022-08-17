@@ -1,4 +1,5 @@
 <?php
+
 // src/Twig/AppExtension.php
 namespace App\Twig;
 
@@ -16,11 +17,8 @@ use function GuzzleHttp\Psr7\str;
 
 class Reporting extends AbstractExtension
 {
-
-
     public function getFunctions(): array
     {
-
         return [
             new TwigFunction('getTotalSpeakingTime', [$this, 'getTotalSpeakingTime']),
         ];
@@ -30,10 +28,9 @@ class Reporting extends AbstractExtension
     {
         $time = 0;
         foreach ($roomStatus->getRoomStatusParticipants() as $data) {
-            if ($data->getDominantSpeakerTime()){
+            if ($data->getDominantSpeakerTime()) {
                 $time += $data->getDominantSpeakerTime();
             }
-
         }
         return $time;
     }

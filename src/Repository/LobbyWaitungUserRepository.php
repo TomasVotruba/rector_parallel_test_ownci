@@ -54,6 +54,6 @@ class LobbyWaitungUserRepository extends ServiceEntityRepository
             ->setParameter('oldest', $oldestDate)
             ->getQuery()
             ->getResult()
-            ;
+        ;
     }
 }

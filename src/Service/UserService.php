@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-
 class UserService
 {
     private $mailer;
@@ -52,8 +51,7 @@ class UserService
         NotificationService     $notificationService,
         UrlGeneratorInterface   $urlGenerator,
         JoinUrlGeneratorService $joinUrlGeneratorService
-    )
-    {
+    ) {
         $this->mailer = $mailerService;
         $this->parameterBag = $parameterBag;
         $this->twig = $environment;
@@ -69,15 +67,14 @@ class UserService
         $this->callerUserService = $callerPrepareService;
         $this->createHttpsUrl = $createHttpsUrl;
         $this->joinUrlGenerator = $joinUrlGeneratorService;
-
     }
 
-    function generateUrl(Rooms $room, User $user)
+    public function generateUrl(Rooms $room, User $user)
     {
         return $this->joinUrlGenerator->generateUrl($room, $user);
     }
 
-    function addUser(User $user, Rooms $room)
+    public function addUser(User $user, Rooms $room)
     {
         if (!$user->getUid()) {
             $user->setUid(md5(uniqid()));
@@ -94,10 +91,9 @@ class UserService
             $this->callerUserService->createUserCallerIDforRoom($room);
             return $this->userAddService->addUserToRoom($user, $room);
         }
-
     }
 
-    function addWaitinglist(User $user, Rooms $room)
+    public function addWaitinglist(User $user, Rooms $room)
     {
         if (!$user->getUid()) {
             $user->setUid(md5(uniqid()));
@@ -105,39 +101,34 @@ class UserService
             $this->em->flush();
         }
         return $this->userAddService->addWaitinglist($user, $room);
-
     }
 
-    function editRoom(User $user, Rooms $room)
+    public function editRoom(User $user, Rooms $room)
     {
         if ($room->getScheduleMeeting()) {
             return $this->userEditService->editRoomSchedule($user, $room);
-
         } elseif ($room->getPersistantRoom()) {
             return $this->userEditService->editPersistantRoom($user, $room);
         } else {
             return $this->userEditService->editRoom($user, $room);
         }
-
     }
 
-    function removeRoom(User $user, Rooms $room)
+    public function removeRoom(User $user, Rooms $room)
     {
         if ($room->getScheduleMeeting()) {
             $this->userRemoveService->removeRoomScheduling($user, $room);
         } elseif ($room->getPersistantRoom()) {
-
             return $this->userRemoveService->removePersistantRoom($user, $room);
         } else {
             if ($room->getEnddate() > new \DateTime()) {
                 $this->userRemoveService->removeRoom($user, $room);
             }
-
         }
         return true;
     }
 
-    function notifyUser(User $user, Rooms $room)
+    public function notifyUser(User $user, Rooms $room)
     {
         $url = $this->generateUrl($room, $user);
         $content = $this->twig->render('email/rememberUser.html.twig', ['user' => $user, 'room' => $room, 'url' => $url]);
@@ -153,14 +144,14 @@ class UserService
 
         $this->pushService->generatePushNotification(
             $subject,
-            $this->translator->trans('Die Videokonferenz {name} startet gleich.',
+            $this->translator->trans(
+                'Die Videokonferenz {name} startet gleich.',
                 array('{organizer}' => $room->getModerator()->getFormatedName($this->parameterBag->get('laf_showNameFrontend')),
-                    '{name}' => $room->getName())),
+                    '{name}' => $room->getName())
+            ),
             $user,
             $url
         );
         return true;
     }
-
-
 }

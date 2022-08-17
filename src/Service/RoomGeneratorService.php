@@ -70,7 +70,6 @@ class RoomGeneratorService
             if ($tag) {
                 $room->setTag($tag);
             }
-
         }
 
         return $room;

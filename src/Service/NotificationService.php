@@ -15,7 +15,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-
 class NotificationService
 {
     private $mailer;
@@ -32,7 +31,7 @@ class NotificationService
         $this->translator = $translator;
     }
 
-    function createIcs(Rooms $rooms, User $user, $url, $method = 'REQUEST')
+    public function createIcs(Rooms $rooms, User $user, $url, $method = 'REQUEST')
     {
         $this->ics = new IcsService();
         $this->ics->setMethod($method);
@@ -75,7 +74,7 @@ class NotificationService
         return $this->ics->toString();
     }
 
-    function sendNotification($content, $subject, User $user, Server $server, Rooms $rooms = null, $attachement = array()): bool
+    public function sendNotification($content, $subject, User $user, Server $server, Rooms $rooms = null, $attachement = array()): bool
     {
         return $this->mailer->sendEmail(
             $user,
@@ -86,12 +85,10 @@ class NotificationService
             $rooms,
             $attachement
         );
-
-
     }
 
 
-    function sendCron($content, $subject, User $user, Server $server, Rooms $rooms): bool
+    public function sendCron($content, $subject, User $user, Server $server, Rooms $rooms): bool
     {
         return $this->mailer->sendEmail(
             $user,
@@ -101,8 +98,5 @@ class NotificationService
             $rooms->getModerator()->getEmail(),
             $rooms
         );
-
     }
-
-
 }

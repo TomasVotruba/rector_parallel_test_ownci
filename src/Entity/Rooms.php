@@ -8,14 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-
 /**
  * @ORM\Entity(repositoryClass=RoomsRepository::class)
  * @ORM\HasLifecycleCallbacks
  */
 class Rooms
 {
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -276,7 +274,6 @@ class Rooms
      */
     public function preUpdate()
     {
-
         $timezone = $this->timeZone ? new \DateTimeZone($this->timeZone) : null;
 
         if ($this->start) {
@@ -311,7 +308,6 @@ class Rooms
 
     public function getStart(): ?\DateTimeInterface
     {
-
         return $this->start;
     }
 
@@ -814,7 +810,6 @@ class Rooms
         } else {
             return $this->moderator->getTimeZone();
         }
-
     }
 
     public function getStartwithTimeZone(?User $user): ?\DateTimeInterface
@@ -1058,6 +1053,4 @@ class Rooms
 
         return $this;
     }
-
-
 }

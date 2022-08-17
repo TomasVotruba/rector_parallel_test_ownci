@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-
 class AdminService
 {
     private $em;
@@ -29,14 +28,14 @@ class AdminService
 
     public function createChart(Server $server)
     {
-        $rooms = $this->em->getRepository(Rooms::class)->findBy(['server'=>$server]);
+        $rooms = $this->em->getRepository(Rooms::class)->findBy(['server' => $server]);
 
         $chart = array();
         $firstDate = new \DateTime();
-        $firstDate = date_modify($firstDate,'-30 days');
+        $firstDate = date_modify($firstDate, '-30 days');
         for ($x = 0; $x <= 60; $x++) {
             $d = clone $firstDate;
-            $date = date_modify($d,'+'.$x.'days');
+            $date = date_modify($d, '+' . $x . 'days');
 
             $chart[$date->format('Ymd')]['date'] = $date;
             $chart[$date->format('Ymd')]['participants'] = 0;
@@ -53,5 +52,4 @@ class AdminService
         }
         return $chart;
     }
-
 }

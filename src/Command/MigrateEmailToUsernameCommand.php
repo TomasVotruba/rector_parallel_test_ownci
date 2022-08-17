@@ -24,7 +24,6 @@ class MigrateEmailToUsernameCommand extends Command
 
     protected function configure(): void
     {
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -32,13 +31,13 @@ class MigrateEmailToUsernameCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $users = $this->em->getRepository(User::class)->findAll();
         $counter = 0;
-        foreach ($users as $data){
+        foreach ($users as $data) {
             $data->setUsername($data->getEmail());
             $this->em->persist($data);
             $counter++;
         }
         $this->em->flush();
-        $io->success(sprintf('We transform %d User',$counter));
+        $io->success(sprintf('We transform %d User', $counter));
 
         return Command::SUCCESS;
     }

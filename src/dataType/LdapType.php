@@ -243,7 +243,8 @@ class LdapType
     {
         try {
             $this->ldap = $this->ldapService->createLDAP(
-                $this->url, $this->bindDn,
+                $this->url,
+                $this->bindDn,
                 $this->password,
                 $this->bindType === 'simple' ? false : true
             );
@@ -282,10 +283,10 @@ class LdapType
             $objectclass .= '(objectclass=' . $data2 . ')';
         }
         $objectclass .= ')';
-        if($this->filter){
-            $objectclass = ''.$objectclass.$this->filter;
+        if ($this->filter) {
+            $objectclass = '' . $objectclass . $this->filter;
         }
-        $objectclass = '(&'.$objectclass.')';
+        $objectclass = '(&' . $objectclass . ')';
         return $objectclass;
     }
 }

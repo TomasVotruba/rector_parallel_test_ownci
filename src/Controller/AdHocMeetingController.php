@@ -28,8 +28,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class AdHocMeetingController extends JitsiAdminController
 {
-
-
     /**
      * @Route("confirmation/{userId}/{serverId}", name="_confirm")
      * @ParamConverter("user", class="App\Entity\User",options={"mapping": {"userId": "id"}})
@@ -41,10 +39,9 @@ class AdHocMeetingController extends JitsiAdminController
         TranslatorInterface $translator,
         ServerUserManagment $serverUserManagment,
         AdhocMeetingService $adhocMeetingService
-    ): Response
-    {
-        $tag = $this->doctrine->getRepository(Tag::class)->findBy(array('disabled'=>false),array('priority'=>'ASC'));
-        return $this->render('add_hoc_meeting/__confirmation.html.twig', array('server' => $server, 'user' => $user, 'tag' =>$tag));
+    ): Response {
+        $tag = $this->doctrine->getRepository(Tag::class)->findBy(array('disabled' => false), array('priority' => 'ASC'));
+        return $this->render('add_hoc_meeting/__confirmation.html.twig', array('server' => $server, 'user' => $user, 'tag' => $tag));
     }
 
     /**
@@ -61,13 +58,10 @@ class AdHocMeetingController extends JitsiAdminController
         ServerUserManagment $serverUserManagment,
         AdhocMeetingService $adhocMeetingService,
         ?Tag                 $tag = null
-    ): Response
-    {
-
+    ): Response {
         if (!in_array($user, $this->getUser()->getAddressbook()->toArray())) {
             $this->addFlash('danger', $translator->trans('Fehler, Der User wurde nicht gefunden'));
             return new JsonResponse(array('redirectUrl' => $this->generateUrl('dashboard')));
-
         }
 
         $servers = $serverUserManagment->getServersFromUser($this->getUser());
@@ -75,24 +69,22 @@ class AdHocMeetingController extends JitsiAdminController
         if (!in_array($server, $servers)) {
             $this->addFlash('danger', $translator->trans('Fehler, Der Server wurde nicht gefunden'));
             return new JsonResponse(array('redirectUrl' => $this->generateUrl('dashboard')));
-
         }
         try {
-            $room = $adhocMeetingService->createAdhocMeeting($this->getUser(), $user, $server,$tag);
+            $room = $adhocMeetingService->createAdhocMeeting($this->getUser(), $user, $server, $tag);
             // $this->addFlash('_blank',$this->generateUrl('room_join',array('t'=>'b','room'=>$room->getId())));
             $this->addFlash('success', $translator->trans('Konferenz erfolgreich erstellt'));
-            return new JsonResponse(array(
+            return new JsonResponse(
+                array(
                     'redirectUrl' => $this->generateUrl('dashboard'),
                     'popups' => array(
                         $this->generateUrl('room_join', array('t' => 'b', 'room' => $room->getId()))
                     )
                 )
             );
-
         } catch (\Exception $exception) {
             $this->addFlash('danger', $translator->trans('Fehler'));
             return new JsonResponse(array('redirectUrl' => $this->generateUrl('dashboard')));
-
         }
     }
 }

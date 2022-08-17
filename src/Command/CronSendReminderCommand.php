@@ -32,15 +32,15 @@ class CronSendReminderCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $res = $this->reminderService->sendReminder();
 
-        $io->writeln('Hinweis: '. $res['hinweis']);
-        $io->writeln('Konferenzen: '.$res['Konferenzen']);
-        $io->writeln('Emails: '.$res['Emails']);
-        $io->writeln('Datum: '.(new \DateTime())->format('d.m.Y'));
-        $io->writeln('Zeit: '.(new \DateTime())->format('H:i'));
-        if(!$res['error']){
+        $io->writeln('Hinweis: ' . $res['hinweis']);
+        $io->writeln('Konferenzen: ' . $res['Konferenzen']);
+        $io->writeln('Emails: ' . $res['Emails']);
+        $io->writeln('Datum: ' . (new \DateTime())->format('d.m.Y'));
+        $io->writeln('Zeit: ' . (new \DateTime())->format('H:i'));
+        if (!$res['error']) {
             $io->success('Erfolgreich versandt');
             return Command::SUCCESS;
-        }else{
+        } else {
             $io->error('Fehler');
             return Command::FAILURE;
         }

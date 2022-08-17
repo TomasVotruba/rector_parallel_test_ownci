@@ -8,7 +8,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Rooms;
 use App\Entity\RoomsUser;
 use App\Entity\Server;
@@ -21,7 +20,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
-
 
 /**
  * Class RoomService
@@ -40,7 +38,6 @@ class RoomService
         $this->logger = $logger;
         $this->translator = $translator;
         $this->uploadHelper = $uploaderHelper;
-
     }
 
     /**
@@ -53,7 +50,7 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    function join(Rooms $room, ?User $user, $t, $userName)
+    public function join(Rooms $room, ?User $user, $t, $userName)
     {
         $roomUser = $this->em->getRepository(RoomsUser::class)->findOneBy(array('user' => $user, 'room' => $room));
         if (!$roomUser) {
@@ -64,10 +61,10 @@ class RoomService
             $moderator = true;
         }
         $avatar = null;
-        if ($user && $user->getProfilePicture()){
-            $avatar =  $this->uploadHelper->asset($user->getProfilePicture(),'documentFile');
+        if ($user && $user->getProfilePicture()) {
+            $avatar = $this->uploadHelper->asset($user->getProfilePicture(), 'documentFile');
         }
-        $url = $this->createUrl($t, $room, $moderator, $roomUser, $userName,$avatar);
+        $url = $this->createUrl($t, $room, $moderator, $roomUser, $userName, $avatar);
         return $url;
     }
 
@@ -81,7 +78,7 @@ class RoomService
      * @author Emanuel Holzmann
      * @de
      */
-    function joinUrl($t, Rooms $room, $name, $isModerator)
+    public function joinUrl($t, Rooms $room, $name, $isModerator)
     {
         return $this->createUrl($t, $room, $isModerator, null, $name);
     }
@@ -98,7 +95,7 @@ class RoomService
         $serverUrl = str_replace('http://', '', $serverUrl);
         $jitsi_server_url = $type . $serverUrl;
         $jitsi_jwt_token_secret = $room->getServer()->getAppSecret();
-        $token = JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $isModerator, $roomUser,$avatar), $jitsi_jwt_token_secret);
+        $token = JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $isModerator, $roomUser, $avatar), $jitsi_jwt_token_secret);
         $url = $jitsi_server_url . '/' . $room->getUid();
         if ($room->getServer()->getAppId() && $room->getServer()->getAppSecret()) {
             $url = $url . '?jwt=' . $token;
@@ -118,15 +115,15 @@ class RoomService
             $moderator = true;
         }
         $avatar = null;
-        if($user && $user->getProfilePicture()){
-            $avatar = $this->uploadHelper->asset($user->getProfilePicture(),'documentFile');
+        if ($user && $user->getProfilePicture()) {
+            $avatar = $this->uploadHelper->asset($user->getProfilePicture(), 'documentFile');
         }
-        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $roomUser,$avatar), $room->getServer()->getAppSecret());
+        return JWT::encode($this->genereateJwtPayload($userName, $room, $room->getServer(), $moderator, $roomUser, $avatar), $room->getServer()->getAppSecret());
     }
 
-    public function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, RoomsUser $roomUser = null,$avatar = null)
+    public function genereateJwtPayload($userName, Rooms $room, Server $server, $moderator, RoomsUser $roomUser = null, $avatar = null)
     {
-        if(!$server->getAppId()){
+        if (!$server->getAppId()) {
             return null;
         }
         $payload = array(
@@ -141,12 +138,12 @@ class RoomService
             ],
 
         );
-        if ($roomUser && !$avatar){
-            if ($roomUser->getUser() && $roomUser->getUser()->getProfilePicture()){
-                $avatar =  $this->uploadHelper->asset($roomUser->getUser()->getProfilePicture(),'documentFile');
+        if ($roomUser && !$avatar) {
+            if ($roomUser->getUser() && $roomUser->getUser()->getProfilePicture()) {
+                $avatar = $this->uploadHelper->asset($roomUser->getUser()->getProfilePicture(), 'documentFile');
             }
         }
-        if ($avatar){
+        if ($avatar) {
             $payload['context']['user']['avatar'] = $avatar;
         }
         if ($room->getServer()->getJwtModeratorPosition() == 0) {
@@ -164,7 +161,6 @@ class RoomService
                 $screen['screen-sharing'] = false;
                 if (($roomUser && $roomUser->getShareDisplay()) || $moderator) {
                     $screen['screen-sharing'] = true;
-
                 }
             }
             if ($room->getDissallowPrivateMessage()) {
