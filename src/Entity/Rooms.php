@@ -6,11 +6,9 @@ use App\Repository\RoomsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * @ORM\Entity(repositoryClass=RoomsRepository::class)
- * @ORM\HasLifecycleCallbacks
  */
 class Rooms
 {
@@ -27,12 +25,6 @@ class Rooms
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="protoypeRooms")
-     * @ORM\JoinTable(name="prototype_users")
-     */
-    private $prototypeUsers;
-
-    /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="favorites")
      */
     private $favoriteUsers;
@@ -41,7 +33,6 @@ class Rooms
     {
         $this->user = new ArrayCollection();
         $this->userAttributes = new ArrayCollection();
-        $this->prototypeUsers = new ArrayCollection();
         $this->favoriteUsers = new ArrayCollection();
     }
 
