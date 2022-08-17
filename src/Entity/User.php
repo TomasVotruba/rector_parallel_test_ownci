@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\UserBase as BaseUser;
 use App\Repository\UserRepository;
 use App\Service\FormatName;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,7 +16,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @Vich\Uploadable()
  */
-class User extends BaseUser
+class User
 {
     private FormatName $formatName;
 
