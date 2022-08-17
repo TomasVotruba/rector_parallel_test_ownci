@@ -85,66 +85,6 @@ class User
      */
     private $roomModerator;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="addressbookInverse")
-     */
-    private $addressbook;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="addressbook")
-     */
-    private $addressbookInverse;
-
-    /**
-     * @ORM\Column(type="array", nullable=true,name="keycloakGroup")
-     */
-    private $groups = [];
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $uid;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Rooms::class, mappedBy="prototypeUsers")
-     */
-    private $protoypeRooms;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $ownRoomUid;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $timeZone;
-
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $spezialProperties = [];
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Rooms::class, inversedBy="favoriteUsers")
-     */
-    private $favorites;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $indexer;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $secondEmail;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
