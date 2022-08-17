@@ -24,27 +24,13 @@ class User
     protected $id;
 
     /**
-     * @Assert\NotBlank(message="fos_user.password.blank", groups={"Registration", "ResetPassword", "ChangePassword"})
-     * @Assert\Length(min=8,
-     *     minMessage="fos_user.password.short",
-     *     groups={"Registration", "Profile", "ResetPassword", "ChangePassword"})
-     */
-    protected $plainPassword;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Rooms::class, mappedBy="user")
      */
     private $rooms;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Rooms::class, mappedBy="moderator")
-     */
-    private $roomModerator;
-
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
-        $this->roomModerator = new ArrayCollection();
     }
 
     /**
@@ -73,23 +59,4 @@ class User
 
         return $this;
     }
-
-    /**
-     * @return Collection|Rooms[]
-     */
-    public function getRoomModerator(): Collection
-    {
-        return $this->roomModerator;
-    }
-
-    public function addRoomModerator(Rooms $roomModerator): self
-    {
-        if (!$this->roomModerator->contains($roomModerator)) {
-            $this->roomModerator[] = $roomModerator;
-            $roomModerator->setModerator($this);
-        }
-
-        return $this;
-    }
-
 }

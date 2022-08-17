@@ -27,12 +27,6 @@ class Rooms
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="roomModerator")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $moderator;
-
-    /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="protoypeRooms")
      * @ORM\JoinTable(name="prototype_users")
      */
