@@ -167,12 +167,6 @@ class Server
 
 
     /**
-     * @var Documents
-     * @ORM\OneToOne(targetEntity=Documents::class, cascade={"persist", "remove"})
-     */
-    private $serverBackgroundImage;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
@@ -622,18 +616,6 @@ class Server
 
         return $this;
     }
-    public function getServerBackgroundImage(): ?Documents
-    {
-        return $this->serverBackgroundImage;
-    }
-
-    public function setServerBackgroundImage(?Documents $serverBackgroundImage): self
-    {
-        $this->serverBackgroundImage = $serverBackgroundImage;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;

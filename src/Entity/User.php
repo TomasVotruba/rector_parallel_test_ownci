@@ -188,12 +188,6 @@ class User extends BaseUser
     private $secondEmail;
 
     /**
-     * @var Documents
-     * @ORM\OneToOne(targetEntity=Documents::class, cascade={"persist", "remove"})
-     */
-    private $profilePicture;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
@@ -803,18 +797,6 @@ class User extends BaseUser
     public function setSecondEmail(?string $secondEmail): self
     {
         $this->secondEmail = $secondEmail;
-
-        return $this;
-    }
-
-    public function getProfilePicture(): ?Documents
-    {
-        return $this->profilePicture;
-    }
-
-    public function setProfilePicture(?Documents $profilePicture): self
-    {
-        $this->profilePicture = $profilePicture;
 
         return $this;
     }
