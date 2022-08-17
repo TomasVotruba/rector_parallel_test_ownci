@@ -225,11 +225,6 @@ class Rooms
     private $roomstatuses;
 
     /**
-     * @ORM\OneToOne(targetEntity=CallerRoom::class, mappedBy="room", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $callerRoom;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $startTimestamp;
@@ -955,23 +950,6 @@ class Rooms
                 $roomstatus->setRoom(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCallerRoom(): ?CallerRoom
-    {
-        return $this->callerRoom;
-    }
-
-    public function setCallerRoom(CallerRoom $callerRoom): self
-    {
-        // set the owning side of the relation if necessary
-        if ($callerRoom->getRoom() !== $this) {
-            $callerRoom->setRoom($this);
-        }
-
-        $this->callerRoom = $callerRoom;
 
         return $this;
     }
