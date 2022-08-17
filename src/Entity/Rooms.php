@@ -199,11 +199,6 @@ class Rooms
     private $endTimestamp;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Tag::class, inversedBy="rooms")
-     */
-    private $tag;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $hostUrl;
@@ -767,18 +762,6 @@ class Rooms
     public function setEndTimestamp(?int $endTimestamp): self
     {
         $this->endTimestamp = $endTimestamp;
-
-        return $this;
-    }
-
-    public function getTag(): ?Tag
-    {
-        return $this->tag;
-    }
-
-    public function setTag(?Tag $tag): self
-    {
-        $this->tag = $tag;
 
         return $this;
     }
