@@ -5,16 +5,28 @@ on:
     pull_request: null
 
 jobs:
-    Explore-GitHub-Actions:
+    windows_test:
         runs-on: windows-latest
         steps:
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.1'
-                  extensions: mbstring, intl
 
             - uses: actions/checkout@v2
+            - uses: "ramsey/composer-install@v1"
 
+            -
+                name: "Rector Run"
+                run: vendor/bin/rector process src/Entity/User.php --ansi --debug
+
+    linux_test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.1'
+
+            - uses: actions/checkout@v2
             - uses: "ramsey/composer-install@v1"
 
             -
