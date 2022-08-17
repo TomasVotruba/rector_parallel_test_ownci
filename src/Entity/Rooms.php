@@ -144,19 +144,9 @@ class Rooms
     private $waitinglists;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Repeat::class, inversedBy="rooms")
-     */
-    private $repeater;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $repeaterRemoved;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Repeat::class, mappedBy="prototyp", cascade={"persist", "remove"})
-     */
-    private $repeaterProtoype;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="protoypeRooms")
@@ -625,18 +615,6 @@ class Rooms
         return $this;
     }
 
-    public function getRepeater(): ?Repeat
-    {
-        return $this->repeater;
-    }
-
-    public function setRepeater(?Repeat $repeater): self
-    {
-        $this->repeater = $repeater;
-
-        return $this;
-    }
-
     public function getRepeaterRemoved(): ?bool
     {
         return $this->repeaterRemoved;
@@ -645,23 +623,6 @@ class Rooms
     public function setRepeaterRemoved(?bool $repeaterRemoved): self
     {
         $this->repeaterRemoved = $repeaterRemoved;
-
-        return $this;
-    }
-
-    public function getRepeaterProtoype(): ?Repeat
-    {
-        return $this->repeaterProtoype;
-    }
-
-    public function setRepeaterProtoype(Repeat $repeaterProtoype): self
-    {
-        // set the owning side of the relation if necessary
-        if ($repeaterProtoype->getPrototyp() !== $this) {
-            $repeaterProtoype->setPrototyp($this);
-        }
-
-        $this->repeaterProtoype = $repeaterProtoype;
 
         return $this;
     }

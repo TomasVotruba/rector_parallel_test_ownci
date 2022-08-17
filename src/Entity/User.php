@@ -137,11 +137,6 @@ class User extends BaseUser
     private $notifications;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Repeat::class, mappedBy="participants")
-     */
-    private $repeaterUsers;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Rooms::class, mappedBy="prototypeUsers")
      */
     private $protoypeRooms;
@@ -204,7 +199,6 @@ class User extends BaseUser
         $this->subscribers = new ArrayCollection();
         $this->waitinglists = new ArrayCollection();
         $this->notifications = new ArrayCollection();
-        $this->repeaterUsers = new ArrayCollection();
         $this->protoypeRooms = new ArrayCollection();
         $this->favorites = new ArrayCollection();
     }
@@ -608,33 +602,6 @@ class User extends BaseUser
             if ($notification->getUser() === $this) {
                 $notification->setUser(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Repeat[]
-     */
-    public function getRepeaterUsers(): Collection
-    {
-        return $this->repeaterUsers;
-    }
-
-    public function addRepeaterUser(Repeat $repeaterUser): self
-    {
-        if (!$this->repeaterUsers->contains($repeaterUser)) {
-            $this->repeaterUsers[] = $repeaterUser;
-            $repeaterUser->addParticipant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRepeaterUser(Repeat $repeaterUser): self
-    {
-        if ($this->repeaterUsers->removeElement($repeaterUser)) {
-            $repeaterUser->removeParticipant($this);
         }
 
         return $this;
