@@ -1,17 +1,20 @@
 name: GitHub Actions Rector Test
-on: [push, pull_request]
+
+on:
+    push: null
+    pull_request: null
+
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: windows-latest
-    steps:
-      - name: setup
-        uses: shivammathur/setup-php@v2
-        with:
-            php-version: '8.1'
-            extensions: mbstring, intl, ldap,fileinfo, xsl
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: Install PHP
-        run: php composer.phar install
-      - name: Rector
-        run: vendor/bin/rector process src
+    Explore-GitHub-Actions:
+        runs-on: windows-latest
+        steps:
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.1'
+                  extensions: mbstring, intl, ldap,fileinfo, xsl
+
+            - uses: actions/checkout@v2
+
+            - run: composer install
+
+            - run: vendor/bin/rector process src
