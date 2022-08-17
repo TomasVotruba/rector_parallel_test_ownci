@@ -51,12 +51,6 @@ class LobbyWaitungUser
     private $showName;
 
     /**
-     * @ORM\OneToOne(targetEntity=CallerSession::class, mappedBy="lobbyWaitingUser", cascade={"persist"})
-     * @ORM\JoinColumn(onDelete="SET NULL")
-     */
-    private $callerSession;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $closeBrowser;
@@ -134,23 +128,6 @@ class LobbyWaitungUser
     public function setShowName(string $showName): self
     {
         $this->showName = $showName;
-
-        return $this;
-    }
-
-    public function getCallerSession(): ?CallerSession
-    {
-        return $this->callerSession;
-    }
-
-    public function setCallerSession(CallerSession $callerSession): self
-    {
-        // set the owning side of the relation if necessary
-        if ($callerSession->getLobbyWaitingUser() !== $this) {
-            $callerSession->setLobbyWaitingUser($this);
-        }
-
-        $this->callerSession = $callerSession;
 
         return $this;
     }
