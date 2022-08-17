@@ -1,3 +1,0 @@
-logLevel = "DEBUG"
-[accessLog]
-  filePath = "./access.log"
