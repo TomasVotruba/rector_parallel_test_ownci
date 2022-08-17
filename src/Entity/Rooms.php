@@ -128,11 +128,6 @@ class Rooms
     private $waitinglist;
 
     /**
-     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="room", cascade={"persist", "remove"})
-     */
-    private $waitinglists;
-
-    /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $repeaterRemoved;
@@ -218,7 +213,6 @@ class Rooms
     {
         $this->user = new ArrayCollection();
         $this->userAttributes = new ArrayCollection();
-        $this->waitinglists = new ArrayCollection();
         $this->prototypeUsers = new ArrayCollection();
         $this->favoriteUsers = new ArrayCollection();
         $this->roomstatuses = new ArrayCollection();
@@ -527,36 +521,6 @@ class Rooms
     public function setWaitinglist(?bool $waitinglist): self
     {
         $this->waitinglist = $waitinglist;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Waitinglist[]
-     */
-    public function getWaitinglists(): Collection
-    {
-        return $this->waitinglists;
-    }
-
-    public function addWaitinglist(Waitinglist $waitinglist): self
-    {
-        if (!$this->waitinglists->contains($waitinglist)) {
-            $this->waitinglists[] = $waitinglist;
-            $waitinglist->setRoom($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWaitinglist(Waitinglist $waitinglist): self
-    {
-        if ($this->waitinglists->removeElement($waitinglist)) {
-            // set the owning side to null (unless already changed)
-            if ($waitinglist->getRoom() === $this) {
-                $waitinglist->setRoom(null);
-            }
-        }
 
         return $this;
     }

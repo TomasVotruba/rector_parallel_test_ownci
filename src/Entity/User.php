@@ -112,11 +112,6 @@ class User extends BaseUser
     private $uid;
 
     /**
-     * @ORM\OneToMany(targetEntity=Waitinglist::class, mappedBy="user", cascade={"remove"})
-     */
-    private $waitinglists;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Rooms::class, mappedBy="prototypeUsers")
      */
     private $protoypeRooms;
@@ -168,7 +163,6 @@ class User extends BaseUser
         $this->addressbook = new ArrayCollection();
         $this->addressbookInverse = new ArrayCollection();
         $this->roomsAttributes = new ArrayCollection();
-        $this->waitinglists = new ArrayCollection();
         $this->protoypeRooms = new ArrayCollection();
         $this->favorites = new ArrayCollection();
     }
@@ -426,36 +420,6 @@ class User extends BaseUser
     public function setUid(?string $uid): self
     {
         $this->uid = $uid;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Waitinglist[]
-     */
-    public function getWaitinglists(): Collection
-    {
-        return $this->waitinglists;
-    }
-
-    public function addWaitinglist(Waitinglist $waitinglist): self
-    {
-        if (!$this->waitinglists->contains($waitinglist)) {
-            $this->waitinglists[] = $waitinglist;
-            $waitinglist->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWaitinglist(Waitinglist $waitinglist): self
-    {
-        if ($this->waitinglists->removeElement($waitinglist)) {
-            // set the owning side to null (unless already changed)
-            if ($waitinglist->getUser() === $this) {
-                $waitinglist->setUser(null);
-            }
-        }
 
         return $this;
     }
