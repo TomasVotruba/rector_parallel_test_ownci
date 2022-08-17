@@ -218,12 +218,6 @@ class User extends BaseUser
      */
     private $updatedAt;
 
-    /**
-     * @ORM\OneToMany(targetEntity=CallerId::class, mappedBy="user", cascade={"remove"})
-     */
-    private $callerIds;
-
-
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
@@ -243,7 +237,6 @@ class User extends BaseUser
         $this->AddressGroupMember = new ArrayCollection();
         $this->favorites = new ArrayCollection();
         $this->lobbyWaitungUsers = new ArrayCollection();
-        $this->callerIds = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -976,36 +969,6 @@ class User extends BaseUser
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|CallerId[]
-     */
-    public function getCallerIds(): Collection
-    {
-        return $this->callerIds;
-    }
-
-    public function addCallerId(CallerId $callerId): self
-    {
-        if (!$this->callerIds->contains($callerId)) {
-            $this->callerIds[] = $callerId;
-            $callerId->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCallerId(CallerId $callerId): self
-    {
-        if ($this->callerIds->removeElement($callerId)) {
-            // set the owning side to null (unless already changed)
-            if ($callerId->getUser() === $this) {
-                $callerId->setUser(null);
-            }
-        }
 
         return $this;
     }
