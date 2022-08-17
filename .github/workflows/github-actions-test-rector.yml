@@ -8,11 +8,12 @@ jobs:
     windows_test:
         runs-on: windows-latest
         steps:
+            - uses: actions/checkout@v2
+
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.1'
 
-            - uses: actions/checkout@v2
             - uses: "ramsey/composer-install@v1"
 
             -
@@ -22,11 +23,12 @@ jobs:
     linux_test:
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@v2
+
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.1'
 
-            - uses: actions/checkout@v2
             - uses: "ramsey/composer-install@v1"
 
             -
